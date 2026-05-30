@@ -69,15 +69,14 @@
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             
             <!-- Logo (ロゴ部分をクリックするとトップに戻ります) -->
-            <button onclick="showPage('lp')" class="flex items-center space-x-2 text-left focus:outline-none flex-shrink-0">
-                <div class="w-9 h-9 sm:w-10 h-10 bg-gradient-to-br from-water-400 to-water-600 rounded-full flex items-center justify-center text-white shadow-md shadow-water-300/50 flex-shrink-0">
-                    <i data-lucide="droplet" class="w-5 h-5 sm:w-6 h-6 fill-current"></i>
-                </div>
-                <!-- 縦並びのおかげで、極小画面でもロゴテキストを隠さず美しく表示可能になりました！ -->
-                <div class="flex-shrink">
-                    <span class="text-[8px] sm:text-xs text-water-600 font-bold tracking-widest block leading-none">水回りの緊急トラブル解決</span>
-                    <span class="text-[11px] sm:text-lg font-black text-water-950 tracking-tight block mt-0.5 sm:mt-1">クリーンウォーター</span>
-                </div>
+            <!-- 従来の雫アイコンと文字をすべて排除し、logo.png を追加。サイズを綺麗にフィットさせました -->
+            <button onclick="showPage('lp')" class="flex items-center focus:outline-none flex-shrink-0">
+                <img 
+                    src="logo.png" 
+                    alt="水回りの救急クリーンサポート" 
+                    class="h-10 sm:h-12 w-auto object-contain" 
+                    onerror="this.onerror=null; this.src='https://placehold.co/200x50/e0f2fe/0369a1?text=クリーンウォーター';"
+                >
             </button>
 
             <!-- 【モバイル・タブレット環境用】上下2段組みレイアウト（lg未満で右端にスッキリ自動配置） -->
@@ -112,7 +111,7 @@
                         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                         24時間365日 年中無休で受付中
                     </p>
-                    <p class="text-3xl text-water-600 font-bold tracking-tight tel-font leading-none mt-1">080-3555-7226</p>
+                    <p class="text-3xl text-water-600 font-bold tracking-tight tel-font leading-none mt-1">070-6467-1123</p>
                 </div>
                 <a href="#contact" onclick="showPage('lp')" class="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-6 py-3 rounded-full shadow-lg shadow-orange-500/30 transition-all duration-300 hover:scale-105 flex items-center gap-2">
                     <i data-lucide="phone-call" class="w-5 h-5"></i>
@@ -636,11 +635,11 @@
                 <!-- Double Column CTA -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
                     <!-- Telephone CTA -->
-                    <a href="tel:08035557226" class="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white p-6 rounded-3xl shadow-xl shadow-orange-500/20 hover:scale-[1.02] transition-all duration-300 flex flex-col justify-center items-center text-center">
+                    <a href="tel:07064671123" class="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white p-6 rounded-3xl shadow-xl shadow-orange-500/20 hover:scale-[1.02] transition-all duration-300 flex flex-col justify-center items-center text-center">
                         <span class="text-xs font-bold text-orange-100 mb-1">24時間受付・今すぐ最速手配</span>
                         <div class="flex items-center gap-2 mb-1">
                             <i data-lucide="phone-call" class="w-6 h-6 animate-bounce"></i>
-                            <span class="text-2xl sm:text-3xl font-bold tel-font">080-3555-7226</span>
+                            <span class="text-2xl sm:text-3xl font-bold tel-font">070-6467-1123</span>
                         </div>
                         <span class="text-xs text-orange-50 opacity-90">携帯からもOK！お気軽にお電話ください</span>
                     </a>
@@ -700,7 +699,7 @@
                         <div class="md:col-span-9 text-slate-700 space-y-1">
                             <p>〒348-0053 埼玉県羽生市南7-19-11</p>
                             <p class="font-bold text-slate-800">
-                                TEL : <span class="tel-font text-base text-slate-900 font-bold">080-3555-7226</span> / 
+                                TEL : <span class="tel-font text-base text-slate-900 font-bold">070-6467-1123</span> / 
                                 FAX : <span class="tel-font text-base text-slate-900 font-bold">048-561-3206</span>
                             </p>
                         </div>
@@ -858,7 +857,7 @@
                         <p class="font-bold">株式会社 NHホールディングス</p>
                         <p>〒348-0053 埼玉県羽生市南7-19-11</p>
                         <p>個人情報取扱責任者：中村 秀弘</p>
-                        <p>連絡先TEL：<span class="tel-font font-bold">080-3555-7226</span></p>
+                        <p>連絡先TEL：<span class="tel-font font-bold">070-6467-1123</span></p>
                     </div>
                 </div>
             </div>
@@ -876,11 +875,16 @@
     <!-- FOOTER -->
     <footer class="bg-slate-950 text-slate-500 py-12 border-t border-slate-900 text-center text-xs pb-32 md:pb-12 w-full">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-            <div class="flex items-center justify-center space-x-2 text-slate-400">
-                <button onclick="showPage('lp')" class="w-6 h-6 bg-gradient-to-br from-water-500 to-water-700 rounded-full flex items-center justify-center text-white focus:outline-none">
-                    <i data-lucide="droplet" class="w-3.5 h-3.5 fill-current"></i>
+            <!-- フッターのロゴも logo.png に差し替え -->
+            <div class="flex items-center justify-center">
+                <button onclick="showPage('lp')" class="focus:outline-none">
+                    <img 
+                        src="logo.png" 
+                        alt="クリーンウォーターサポート" 
+                        class="h-10 sm:h-12 w-auto object-contain mx-auto" 
+                        onerror="this.onerror=null; this.src='https://placehold.co/200x50/0c4a6e/ffffff?text=クリーンウォーター';"
+                    >
                 </button>
-                <span class="font-bold text-sm tracking-tight text-white">クリーンウォーターサポート</span>
             </div>
             <!-- Footer Navigation Links -->
             <div class="flex justify-center space-x-6 text-sm text-slate-400 mb-2">
@@ -906,12 +910,12 @@
                 <i data-lucide="message-square" class="w-5 h-5"></i>
                 <span>LINEでカンタン相談</span>
             </a>
-            <!-- Phone -->
-            <a href="tel:08035557226" class="bg-gradient-to-r from-orange-500 to-amber-500 active:from-orange-600 active:to-amber-600 text-white rounded-2xl py-3 px-4 flex flex-col items-center justify-center shadow-lg shadow-orange-500/20">
+            <!-- Phone (新しい電話番号へアップデート) -->
+            <a href="tel:07064671123" class="bg-gradient-to-r from-orange-500 to-amber-500 active:from-orange-600 active:to-amber-600 text-white rounded-2xl py-3 px-4 flex flex-col items-center justify-center shadow-lg shadow-orange-500/20">
                 <span class="text-[9px] font-bold text-orange-100 -mb-0.5 leading-none">最短10分でお伺い！</span>
                 <span class="font-bold text-sm flex items-center gap-1 tel-font">
                     <i data-lucide="phone-call" class="w-4 h-4 fill-current animate-pulse"></i>
-                    080-3555-7226
+                    070-6467-1123
                 </span>
             </a>
         </div>
