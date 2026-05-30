@@ -97,15 +97,21 @@
 
     <!-- MAIN LP PAGE VIEW -->
     <main id="lp-view" class="flex-grow">
-        <!-- HERO SECTION (バナー画像 top.png) -->
+        <!-- HERO SECTION (PCバナー画像 top.png / スマホバナー画像 top_small.png) -->
         <section class="relative bg-white border-b border-water-100 overflow-hidden">
             <div class="max-w-7xl mx-auto">
                 <div class="w-full">
-                    <!-- 画面横幅いっぱいに美しく広がるメインバナー画像 (top.png) -->
+                    <!-- PC環境用バナー (画面幅 md: 768px 以上のときに表示され、スマホサイズでは非表示) -->
                     <img 
                         src="top.png" 
                         alt="水回りのトラブル解決、最短10分で駆けつけます！" 
-                        class="w-full h-auto block"
+                        class="w-full h-auto hidden md:block"
+                    >
+                    <!-- スマホ・タブレット環境用バナー (画面幅 md: 767px 以下のときに表示され、PCサイズでは非表示) -->
+                    <img 
+                        src="top_small.png" 
+                        alt="水回りのトラブル解決、最短10分で駆けつけます！" 
+                        class="w-full h-auto block md:hidden"
                     >
                 </div>
             </div>
