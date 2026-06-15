@@ -946,12 +946,10 @@
             const companyView = document.getElementById('company-view');
             const privacyView = document.getElementById('privacy-view');
 
-            // Hide all pages first
             lpView.classList.add('hidden');
             companyView.classList.add('hidden');
             privacyView.classList.add('hidden');
 
-            // Show target page
             if (pageId === 'company') {
                 companyView.classList.remove('hidden');
             } else if (pageId === 'privacy') {
@@ -960,7 +958,6 @@
                 lpView.classList.remove('hidden');
             }
 
-            // Scroll to the very top smoothly after page transition
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -976,22 +973,20 @@
             }
         });
 
-<script>
-function gtag_report_conversion(url) {
-  var callback = function () {
-    if (typeof(url) != 'undefined') {
-      window.location = url;
-    }
-  };
-  gtag('event', 'conversion', {
-      'send_to': 'AW-17498401530/9fUnCInamL8cEPrV8ZdB',
-      'value': 1.0,
-      'currency': 'JPY',
-      'event_callback': callback
-  });
-  return false;
-}
-</script>
+        function gtag_report_conversion(url) {
+            var callback = function () {
+                if (typeof(url) != 'undefined') {
+                    window.location = url;
+                }
+            };
+            gtag('event', 'conversion', {
+                'send_to': 'AW-17498401530/9fUnCInamL8cEPrV8ZdB',
+                'value': 1.0,
+                'currency': 'JPY',
+                'event_callback': callback
+            });
+            return false;
+        }
     </script>
 </body>
 </html>
