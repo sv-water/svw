@@ -127,7 +127,7 @@
                     </p>
                     <p class="text-3xl text-water-600 font-bold tracking-tight tel-font leading-none mt-1">070-6467-1123</p>
                 </div>
-                <a href="#contact" onclick="showPage('lp')" class="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-6 py-3 rounded-full shadow-lg shadow-orange-500/30 transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                <a href="tel:07064671123" onclick="return gtag_report_conversion('tel:07064671123');" class="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-6 py-3 rounded-full shadow-lg shadow-orange-500/30 transition-all duration-300 hover:scale-105 flex items-center gap-2">
                     <i data-lucide="phone-call" class="w-5 h-5"></i>
                     <span>今すぐ無料相談</span>
                 </a>
@@ -975,6 +975,23 @@
                 header.classList.add('bg-white/90');
             }
         });
+
+<script>
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-17498401530/9fUnCInamL8cEPrV8ZdB',
+      'value': 1.0,
+      'currency': 'JPY',
+      'event_callback': callback
+  });
+  return false;
+}
+</script>
     </script>
 </body>
 </html>
