@@ -25,7 +25,7 @@
             theme: {
                 extend: {
                     screens: {
-                        'xs': '375px', // 極小スマホ向けのブレイクポイント追加
+                        'xs': '375px',
                     },
                     colors: {
                         water: {
@@ -44,93 +44,115 @@
                     },
                     fontFamily: {
                         sans: ['"Noto Sans JP"', 'sans-serif'],
-                        en: ['"Oswald"', 'sans-serif'], // かっこいい電話番号用の縦長プレミアムフォント「Oswald」を標準設定
+                        en: ['"Oswald"', 'sans-serif'],
                         montserrat: ['"Montserrat"', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
-    <!-- Google Fonts: Noto Sans JP, Oswald, Montserrat -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Noto+Sans+JP:wght@400;700;900&family=Oswald:wght@500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Noto+Sans+JP:wght@500;700;900&family=Oswald:wght@600;700;900&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <style>
-        /* 水のゆらぎやグラデーション用のカスタムCSS */
-        .water-wave {
-            background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(224,242,254,0.4) 100%);
+        /* 高齢層向けに文字の読みやすさを調整 */
+        .readable-leading {
+            line-height: 1.8;
+            letter-spacing: 0.03em;
         }
-        .text-shadow-sm {
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        /* 蛍光ペン風の黄色マーカー */
+        .highlight-yellow {
+            background: linear-gradient(transparent 50%, #fef08a 50%);
         }
-        .text-shadow-md {
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+        /* 蛍光ペン風のピンクマーカー */
+        .highlight-pink {
+            background: linear-gradient(transparent 50%, #fecdd3 50%);
         }
-        /* 電話番号用のフォントカーニング（文字間隔）の微調整 */
+        /* 受話器アイコンの震えるアニメーション（タップ喚起） */
+        @keyframes phone-wiggle {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            5% { transform: rotate(-12deg) scale(1.15); }
+            10% { transform: rotate(14deg) scale(1.15); }
+            15% { transform: rotate(-10deg) scale(1.1); }
+            20% { transform: rotate(12deg) scale(1.1); }
+            25% { transform: rotate(-8deg) scale(1); }
+            30% { transform: rotate(8deg) scale(1); }
+            35% { transform: rotate(0deg) scale(1); }
+        }
+        .animate-phone-wiggle {
+            animation: phone-wiggle 2.5s infinite ease-in-out;
+        }
+
+        /* 波紋のように脈動する超強力パルス */
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(249, 115, 22, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+        }
+        .animate-pulse-ring {
+            animation: pulse-ring 2s infinite;
+        }
+
         .tel-font {
             font-family: 'Oswald', sans-serif;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.03em;
         }
     </style>
 </head>
-<body class="font-sans bg-slate-50 text-slate-800 antialiased selection:bg-water-200 min-h-screen flex flex-col justify-between">
+<body class="font-sans bg-slate-50 text-slate-950 antialiased selection:bg-water-200 min-h-screen flex flex-col justify-between readable-leading">
 
     <!-- HEADER -->
-    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-water-100 transition-all duration-300">
-        <!-- 左右パディングをコンパクトに調整し、スペースを有効活用。PC（md以上）での表示時は高さをh-24に拡張 -->
-        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-20 md:h-24 flex items-center justify-between transition-all duration-300">
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b-2 border-water-200 transition-all duration-300">
+        <!-- 左右パディングをさらに広げ、見やすく配置。ヘッダー自体の高さを大幅に高く（押し間違い防止） -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 md:h-28 flex items-center justify-between transition-all duration-300">
             
-            <!-- Logo (ロゴ部分をクリックするとトップに戻ります) -->
-            <!-- PCサイズ（md以上）での高さを h-10/sm:h-12 から md:h-16/lg:h-18 に大幅スケールアップ -->
-            <button onclick="showPage('lp')" class="flex items-center focus:outline-none flex-shrink-0">
+            <!-- Logo -->
+            <button onclick="showPage('lp')" class="flex items-center focus:outline-none flex-shrink-0 text-left">
                 <img 
                     src="logo.png" 
                     alt="水回りの救急クリーンサポート" 
-                    class="h-10 sm:h-12 md:h-16 lg:h-18 w-auto object-contain transition-all duration-300" 
-                    onerror="this.onerror=null; this.src='https://placehold.co/200x50/e0f2fe/0369a1?text=クリーンウォーター';"
+                    class="h-12 sm:h-16 md:h-20 lg:h-22 w-auto object-contain transition-all duration-300" 
+                    onerror="this.onerror=null; this.src='https://placehold.co/280x70/e0f2fe/0369a1?text=水回りのクリーンサポート';"
                 >
             </button>
 
-            <!-- 【モバイル・タブレット環境用】上下2段組みレイアウト（lg未満で右端にスッキリ自動配置） -->
+            <!-- 【スマホ・タブレット用】押しやすさ特化：右上２段組み -->
             <div class="flex flex-col items-end justify-center space-y-1 lg:hidden flex-shrink-0 pl-2">
-                <!-- 上段: キャンペーンバナー headerCard.png (読みやすいサイズをしっかりキープ) -->
-                <img 
-                    src="headerCard.png" 
-                    alt="限定キャンペーン実施中！" 
-                    class="h-8 xs:h-9 sm:h-12 w-auto object-contain drop-shadow-sm"
-                    onerror="this.style.display='none';"
-                >
-                <!-- 下段: 無料相談ボタン (レスポンシブ時に、クリックですぐに電話できるように修正、かつ広告計測対応) -->
-                <a href="tel:0120546207" onclick="return gtag_report_conversion('tel:0120546207');" class="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 active:scale-95 text-white font-bold py-1 xs:py-1.5 sm:py-2 rounded-full shadow-md shadow-orange-500/20 text-[9px] xs:text-xs sm:text-sm flex items-center justify-center gap-0.5 xs:gap-1 transition-all duration-300 w-[95px] xs:w-[115px] sm:w-[140px] flex-shrink-0">
-                    <i data-lucide="phone-call" class="w-2.5 h-2.5 xs:w-3 h-3 sm:w-3.5 h-3.5"></i>
-                    <span>無料相談</span>
+                <span class="text-[10px] xs:text-xs font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded border border-red-200">
+                    年中無休・24時間受付中
+                </span>
+                <!-- タップしてすぐ電話をかけられるボタン（特大文字） -->
+                <a href="tel:0120546207" onclick="return gtag_report_conversion('tel:0120546207');" class="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 active:scale-95 text-white font-black py-2 px-3 rounded-full shadow-lg shadow-orange-500/30 text-xs xs:text-sm flex items-center justify-center gap-1 transition-all duration-300 animate-pulse-ring">
+                    <i data-lucide="phone-call" class="w-4.5 h-4.5 animate-phone-wiggle"></i>
+                    <span>無料電話はこちら</span>
                 </a>
             </div>
 
-            <!-- Info & CTA (Desktop) - 1段構成 of シンプルなプレミアムヘッダー（PC・大画面時に表示） -->
+            <!-- 【PC環境用】超巨大プレミアムヘッダー（押し間違えない圧倒的視認性） -->
             <div class="hidden lg:flex items-center space-x-6 flex-shrink-0">
-                <!-- 【PC環境用】拡張したヘッダー高さに合わせて、キャンペーンバナーを h-14 から lg:h-18 に調整 -->
-                <div class="flex items-center mr-2">
-                    <img 
-                        src="headerCard.png" 
-                        alt="限定キャンペーン実施中！" 
-                        class="h-14 md:h-16 lg:h-18 w-auto object-contain drop-shadow-sm transition-all duration-300"
-                        onerror="this.style.display='none';"
-                    >
-                </div>
-                <div class="text-right border-l border-slate-200 pl-6">
-                    <p class="text-xs text-slate-500 flex items-center justify-end gap-1">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                        24時間365日 年中無休で受付中
+                <div class="text-right border-l-4 border-water-500 pl-6">
+                    <p class="text-sm font-bold text-slate-700 flex items-center justify-end gap-1.5">
+                        <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+                        【通話料無料】携帯電話からもおかけ頂けます
                     </p>
-                    <p class="text-3xl text-water-600 font-bold tracking-tight tel-font leading-none mt-1">0120 546 207</p>
+                    <p class="text-xs text-red-600 font-black mt-0.5">※今すぐつながります！24時間365日対応</p>
+                    <!-- PC用超巨大電話番号 -->
+                    <a href="tel:0120546207" onclick="return gtag_report_conversion('tel:0120546207');" class="block text-4xl text-red-600 hover:text-red-700 font-black tracking-tight tel-font leading-none mt-1 hover:scale-105 transition-transform">
+                        📞 0120-546-207
+                    </a>
                 </div>
-                <a href="tel:0120546207" onclick="return gtag_report_conversion('tel:0120546207');" class="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-6 py-3 rounded-full shadow-lg shadow-orange-500/30 transition-all duration-300 hover:scale-105 flex items-center gap-2">
-                    <i data-lucide="phone-call" class="w-5 h-5"></i>
-                    <span>今すぐ無料相談</span>
+                
+                <!-- PC用クリック誘導つき特大CTAボタン -->
+                <a href="tel:0120546207" onclick="return gtag_report_conversion('tel:0120546207');" class="bg-gradient-to-r from-orange-500 via-red-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-black px-8 py-4 rounded-2xl shadow-xl shadow-red-500/30 transition-all duration-300 hover:scale-105 flex flex-col items-center justify-center animate-pulse-ring">
+                    <span class="text-xs text-yellow-200 tracking-wider font-bold mb-0.5">👇 クリックでそのまま電話がかかります👇</span>
+                    <span class="text-lg flex items-center gap-2">
+                        <i data-lucide="phone-call" class="w-5 h-5 animate-phone-wiggle"></i>
+                        <span>今すぐオペレーターへ相談する</span>
+                    </span>
                 </a>
             </div>
             
@@ -139,93 +161,140 @@
 
     <!-- MAIN LP PAGE VIEW -->
     <main id="lp-view" class="flex-grow">
-        <!-- HERO SECTION (PCバナー画像 top.png / スマホバナー画像 top_small.png) -->
-        <section class="relative bg-white border-b border-water-100 overflow-hidden">
-            <div class="max-w-7xl mx-auto">
-                <div class="w-full">
-                    <!-- PC環境用バナー (画面幅 md: 768px 以上のときに表示され、スマホサイズでは非表示) -->
+        
+        <!-- HERO SECTION (文字情報をスッキリ補強した超親切な見出し) -->
+        <section class="relative bg-gradient-to-b from-white to-water-50/50 border-b-2 border-water-100 overflow-hidden py-4">
+            <div class="max-w-7xl mx-auto px-4">
+                
+                <!-- 高齢者向け特大お知らせバナー -->
+                <div class="bg-red-50 border-4 border-red-500 rounded-2xl p-4 sm:p-6 mb-6 text-center shadow-md">
+                    <span class="bg-red-600 text-white font-black px-4 py-1 rounded-full text-base sm:text-lg inline-block animate-bounce mb-2">
+                        高齢者様・初めての方も安心！
+                    </span>
+                    <h1 class="text-2xl sm:text-4xl font-black text-red-600 leading-snug">
+                        水漏れ・つまり等、水回りのトラブルを最速解決！
+                    </h1>
+                    <p class="text-lg sm:text-2xl font-bold text-slate-800 mt-2">
+                        出張料・お見積り・キャンセル費用は<span class="highlight-yellow text-red-600 font-black px-1">すべて0円！</span>
+                    </p>
+                    <p class="text-base sm:text-xl font-bold text-slate-700 mt-1">
+                        ※お電話の後、専門スタッフが<span class="underline decoration-red-500 decoration-2 font-black">最短10分</span>で駆けつけ、作業前に必ず確実な総額料金をお伝えします。
+                    </p>
+                </div>
+
+                <!-- ヒーロー画像 (PC/スマホ) -->
+                <div class="w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+                    <!-- PCバナー -->
                     <img 
                         src="top.png" 
                         alt="水回りのトラブル解決、最短10分で駆けつけます！" 
                         class="w-full h-auto hidden md:block"
+                        onerror="this.onerror=null; this.src='https://placehold.co/1200x500/0369a1/ffffff?text=水回りトラブル即日解決！最短10分駆けつけ！';"
                     >
-                    <!-- スマホ・タブレット環境用バナー (画面幅 md: 767px 以下のときに表示され、PCサイズでは非表示) -->
+                    <!-- スマホバナー -->
                     <img 
                         src="top_small.png" 
                         alt="水回りのトラブル解決、最短10分で駆けつけます！" 
                         class="w-full h-auto block md:hidden"
+                        onerror="this.onerror=null; this.src='https://placehold.co/600x600/0369a1/ffffff?text=水回りトラブル%0A即日解決！%0A最短10分駆けつけ！';"
                     >
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 1: SELECTED REASONS -->
-        <section class="py-20 bg-white">
+        <!-- SECTION 1: SELECTED REASONS (誠実さ、自社施工をわかりやすく大文字で解説) -->
+        <section class="py-16 sm:py-24 bg-white border-b border-slate-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
                 <!-- Section Header -->
-                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                    <span class="text-water-600 font-bold uppercase tracking-widest text-sm">Why Choose Us</span>
-                    <h2 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
-                        多くのお客様に選ばれる<br class="sm:hidden">
-                        <span class="text-water-600">3つの信頼の理由</span>
+                <div class="text-center max-w-4xl mx-auto mb-16 space-y-4">
+                    <span class="bg-water-100 text-water-800 font-black px-4 py-1.5 rounded-full text-base tracking-wider inline-block">
+                        ウォーターレスキューの約束
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-black text-slate-900 leading-tight">
+                        ご高齢者様から圧倒的に選ばれる<br>
+                        <span class="text-water-600 highlight-yellow px-2">「3つの安心」をお約束します</span>
                     </h2>
-                    <div class="w-12 h-1 bg-water-500 mx-auto rounded-full"></div>
+                    <div class="w-24 h-2 bg-water-500 mx-auto rounded-full mt-4"></div>
                 </div>
 
                 <!-- Reason Cards Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     
                     <!-- Reason 1 -->
-                    <div class="bg-gradient-to-b from-white to-water-50/50 rounded-3xl p-8 border border-water-100 hover:border-water-200 transition-all duration-300 hover:shadow-xl hover:shadow-water-100/50 flex flex-col justify-between">
+                    <div class="bg-gradient-to-b from-white to-water-50/70 rounded-3xl p-8 border-2 border-water-100 shadow-md flex flex-col justify-between text-left">
                         <div class="space-y-6">
-                            <div class="w-14 h-14 bg-water-100 rounded-2xl flex items-center justify-center text-water-600 shadow-sm">
-                                <i data-lucide="sparkles" class="w-7 h-7"></i>
+                            <div class="flex items-center gap-3">
+                                <span class="font-en text-4xl font-black text-water-500 leading-none">01</span>
+                                <h3 class="text-xl sm:text-2xl font-black text-slate-900">清潔感ある優しい自社スタッフのみがお伺い</h3>
                             </div>
-                            <div class="space-y-3">
-                                <div class="flex items-center gap-2">
-                                    <span class="font-en text-3xl font-black text-water-300 leading-none">01</span>
-                                    <h3 class="text-xl font-bold text-slate-900">清潔感溢れる自社スタッフ</h3>
-                                </div>
-                                <p class="text-slate-600 leading-relaxed text-sm">
-                                    当社は外注の委託業者を一切使いません。独自の厳しいマナー研修・技術テストをクリアした、清潔感のある自社専任スタッフのみがお伺いします。タバコの臭いや汚れた衣服での訪問は絶対にいたしません。
+                            <!-- スタッフ笑顔のイメージSVGイラスト（視覚的な安心感の追加） -->
+                            <div class="bg-white p-4 rounded-2xl border border-slate-100 flex items-center gap-4">
+                                <svg class="w-16 h-16 text-water-500 flex-shrink-0" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="32" cy="32" r="30" fill="#e0f2fe"/>
+                                    <path d="M46 50C46 41.1634 39.732 34 32 34C24.268 34 18 41.1634 18 50" stroke="#0284c7" stroke-width="4" stroke-linecap="round"/>
+                                    <circle cx="32" cy="22" r="8" fill="#ffffff" stroke="#0284c7" stroke-width="4"/>
+                                    <path d="M29 22C29 22 30.5 24 32 24C33.5 24 35 22 35 22" stroke="#0284c7" stroke-width="2" stroke-linecap="round"/>
+                                    <circle cx="28" cy="19" r="1.5" fill="#0284c7"/>
+                                    <circle cx="36" cy="19" r="1.5" fill="#0284c7"/>
+                                </svg>
+                                <p class="text-xs text-slate-700 leading-relaxed font-bold">
+                                    「タバコの臭いや汚れた衣服での訪問は一切ありません。笑顔で丁寧にご説明します！」
                                 </p>
                             </div>
+                            <p class="text-slate-800 text-base sm:text-lg leading-relaxed">
+                                当社は外注の委託業者を一切使いません。独自の厳しいマナー研修・技術テストをクリアした、<span class="font-bold underline">清潔感のある自社専任スタッフのみ</span>がお伺いします。初めての高齢者様でも、安心してご自宅にお招きいただけます。
+                            </p>
                         </div>
                     </div>
 
                     <!-- Reason 2 -->
-                    <div class="bg-gradient-to-b from-white to-water-50/50 rounded-3xl p-8 border border-water-100 hover:border-water-200 transition-all duration-300 hover:shadow-xl hover:shadow-water-100/50 flex flex-col justify-between">
+                    <div class="bg-gradient-to-b from-white to-water-50/70 rounded-3xl p-8 border-2 border-water-100 shadow-md flex flex-col justify-between text-left">
                         <div class="space-y-6">
-                            <div class="w-14 h-14 bg-water-100 rounded-2xl flex items-center justify-center text-water-600 shadow-sm">
-                                <i data-lucide="shield" class="w-7 h-7"></i>
+                            <div class="flex items-center gap-3">
+                                <span class="font-en text-4xl font-black text-water-500 leading-none">02</span>
+                                <h3 class="text-xl sm:text-2xl font-black text-slate-900">作業前の【ハッキリ見積り】、追加料金は一切なし</h3>
                             </div>
-                            <div class="space-y-3">
-                                <div class="flex items-center gap-2">
-                                    <span class="font-en text-3xl font-black text-water-300 leading-none">02</span>
-                                    <h3 class="text-xl font-bold text-slate-900">完全自社施工で業界最安水準</h3>
-                                </div>
-                                <p class="text-slate-600 leading-relaxed text-sm">
-                                    中間マージンが一切発生しないため、無駄なコストを徹底カット。地域密着だからできる圧倒的なコストパフォーマンスで、お客様へ還元しております。他社様のお見積りより高ければぜひご相談ください。
+                            <!-- 価格安心SVGイラスト -->
+                            <div class="bg-white p-4 rounded-2xl border border-slate-100 flex items-center gap-4">
+                                <svg class="w-16 h-16 text-amber-500 flex-shrink-0" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="32" cy="32" r="30" fill="#fef3c7"/>
+                                    <rect x="20" y="16" width="24" height="32" rx="3" stroke="#d97706" stroke-width="4" fill="white"/>
+                                    <line x1="26" y1="24" x2="38" y2="24" stroke="#d97706" stroke-width="3" stroke-linecap="round"/>
+                                    <line x1="26" y1="32" x2="38" y2="32" stroke="#d97706" stroke-width="3" stroke-linecap="round"/>
+                                    <line x1="26" y1="40" x2="32" y2="40" stroke="#d97706" stroke-width="3" stroke-linecap="round"/>
+                                </svg>
+                                <p class="text-xs text-slate-700 leading-relaxed font-bold">
+                                    「出張費・お見積もりは完全無料。ご納得いただかない限り、料金は一円も発生しません。」
                                 </p>
                             </div>
+                            <p class="text-slate-800 text-base sm:text-lg leading-relaxed">
+                                一部の悪質業者でみられる「広告価格と大きく異なる不当請求」は絶対にありません。トラブルの原因をしっかりと絵や現場でお見せし、<span class="font-bold highlight-yellow">ご納得いただける総額お見積りを出してから作業を開始</span>します。お見積り後のキャンセル料ももちろん0円です。
+                            </p>
                         </div>
                     </div>
 
                     <!-- Reason 3 -->
-                    <div class="bg-gradient-to-b from-white to-water-50/50 rounded-3xl p-8 border border-water-100 hover:border-water-200 transition-all duration-300 hover:shadow-xl hover:shadow-water-100/50 flex flex-col justify-between">
+                    <div class="bg-gradient-to-b from-white to-water-50/70 rounded-3xl p-8 border-2 border-water-100 shadow-md flex flex-col justify-between text-left">
                         <div class="space-y-6">
-                            <div class="w-14 h-14 bg-water-100 rounded-2xl flex items-center justify-center text-water-600 shadow-sm">
-                                <i data-lucide="award" class="w-7 h-7"></i>
+                            <div class="flex items-center gap-3">
+                                <span class="font-en text-4xl font-black text-water-500 leading-none">03</span>
+                                <h3 class="text-xl sm:text-2xl font-black text-slate-900">水道局指定店としての豊富な実績と資格</h3>
                             </div>
-                            <div class="space-y-3">
-                                <div class="flex items-center gap-2">
-                                    <span class="font-en text-3xl font-black text-water-300 leading-none">03</span>
-                                    <h3 class="text-xl font-bold text-slate-900">豊富な実績と資格保有者</h3>
-                                </div>
-                                <p class="text-slate-600 leading-relaxed text-sm">
-                                    水道局指定店として、給水装置工事主任技術者などの国家資格保有者が責任を持って作業。これまでの累計修理実績は5万件を突破。高い専門性と豊富なノウハウがあるからこそ、再発防止まで見据えた最適な解決が可能です。
+                            <!-- 信頼証書SVGイラスト -->
+                            <div class="bg-white p-4 rounded-2xl border border-slate-100 flex items-center gap-4">
+                                <svg class="w-16 h-16 text-emerald-500 flex-shrink-0" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="32" cy="32" r="30" fill="#d1fae5"/>
+                                    <path d="M32 14L45 20V34C45 42.5 39.5 50 32 52.5C24.5 50 19 42.5 19 34V20L32 14Z" fill="white" stroke="#059669" stroke-width="4"/>
+                                    <path d="M26 33L30 37L38 29" stroke="#059669" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <p class="text-xs text-slate-700 leading-relaxed font-bold">
+                                    「給水装置工事主任技術者などの国家資格保有者が、確実な工事をお届けします。」
                                 </p>
                             </div>
+                            <p class="text-slate-800 text-base sm:text-lg leading-relaxed">
+                                これまでの累計修理実績は5万件を突破。<span class="font-bold underline">水道局指定店として安心の施工</span>をお約束します。その場しのぎの応急処置ではなく、トラブルの根本原因を見つけてしっかり解決。再発防止まで見据えたアフターサービスもお任せください。
+                            </p>
                         </div>
                     </div>
 
@@ -233,293 +302,338 @@
             </div>
         </section>
 
-        <!-- SECTION 2: SERVICES & PRICING -->
-        <section class="py-20 bg-gradient-to-b from-water-50/50 to-water-100/30">
+        <!-- (新設追加) SECTION: BEFORE & AFTER (視認性と直感的理解を高めるビジュアル) -->
+        <section class="py-16 bg-water-50/60 border-b border-water-100 text-center">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Section Header -->
-                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                    <span class="text-water-600 font-bold uppercase tracking-widest text-sm">Services & Prices</span>
-                    <h2 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
-                        水回りのトラブル対応一覧と<span class="text-water-600">基本料金</span>
+                <div class="max-w-3xl mx-auto mb-12 space-y-3">
+                    <span class="bg-orange-100 text-orange-800 font-bold px-3 py-1 rounded text-sm inline-block">驚きのスッキリ解決！</span>
+                    <h2 class="text-2xl sm:text-4xl font-black text-slate-900">
+                        配管づまり・水漏れの<span class="text-red-600">劇的ビフォーアフター</span>
                     </h2>
-                    <p class="text-sm text-slate-500">お見積り作成まで完全無料！作業前に追加費用が発生することは絶対にございません。</p>
-                    <div class="w-12 h-1 bg-water-500 mx-auto rounded-full"></div>
+                    <p class="text-slate-700 text-base sm:text-lg">頑固な油汚れや、詰まった異物も専用の器具とプロの技術で綺麗に一掃します！</p>
                 </div>
 
-                <!-- 写真入り直感料金カードグリッド (6大カテゴリ) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Before Card -->
+                    <div class="bg-white rounded-2xl p-6 border-2 border-red-200 shadow-md">
+                        <div class="bg-red-500 text-white font-black text-lg py-1 px-4 rounded-full inline-block mb-4">
+                            作業前 (Before) ：流れずあふれる水、詰まった汚れ
+                        </div>
+                        <div class="w-full h-48 rounded-xl bg-slate-100 flex items-center justify-center relative overflow-hidden border border-slate-200">
+                            <!-- 詰まり配管のSVGグラフィック -->
+                            <svg class="w-full h-36" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 20H180V80H20V20Z" fill="#e2e8f0"/>
+                                <path d="M20 30H180V70H20V30Z" fill="#94a3b8"/>
+                                <!-- 詰まり汚れ -->
+                                <circle cx="100" cy="50" r="25" fill="#78350f" opacity="0.9"/>
+                                <circle cx="85" cy="45" r="15" fill="#451a03" opacity="0.9"/>
+                                <circle cx="115" cy="55" r="18" fill="#451a03" opacity="0.9"/>
+                                <!-- 滞留する水滴 -->
+                                <path d="M50 40C50 40 45 45 45 50C45 55 50 60 55 60C60 60 65 55 65 50" fill="#38bdf8" opacity="0.6"/>
+                                <text x="75" y="85" fill="#991b1b" font-weight="bold" font-size="10">ヘドロや汚れが完全に蓄積！</text>
+                            </svg>
+                            <span class="absolute top-2 right-2 bg-red-600 text-white font-black text-xs px-2 py-1 rounded">流れがストップ!</span>
+                        </div>
+                        <p class="text-sm font-bold text-slate-800 mt-3 text-left">
+                            長年の油汚れや髪の毛が、排水管の内部にビッシリ付着。自力でのラバーカップ清掃ではびくともしない状態です。
+                        </p>
+                    </div>
+
+                    <!-- After Card -->
+                    <div class="bg-white rounded-2xl p-6 border-2 border-emerald-300 shadow-md">
+                        <div class="bg-emerald-500 text-white font-black text-lg py-1 px-4 rounded-full inline-block mb-4">
+                            作業後 (After) ：水の通り道がすっきり！
+                        </div>
+                        <div class="w-full h-48 rounded-xl bg-slate-100 flex items-center justify-center relative overflow-hidden border border-slate-200">
+                            <!-- スッキリ流れる配管のSVGグラフィック -->
+                            <svg class="w-full h-36" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 20H180V80H20V20Z" fill="#e0f2fe"/>
+                                <path d="M20 30H180V70H20V30Z" fill="#bae6fd"/>
+                                <!-- 勢いよく流れる水 -->
+                                <path d="M20 50Q100 35 180 50" stroke="#0284c7" stroke-width="12" stroke-linecap="round"/>
+                                <circle cx="50" cy="50" r="3" fill="white"/>
+                                <circle cx="100" cy="45" r="4" fill="white"/>
+                                <circle cx="150" cy="50" r="3" fill="white"/>
+                                <text x="70" y="85" fill="#065f46" font-weight="bold" font-size="10">高圧洗浄で一滴残らず解消！</text>
+                            </svg>
+                            <span class="absolute top-2 right-2 bg-emerald-600 text-white font-black text-xs px-2 py-1 rounded">すっきり開通！</span>
+                        </div>
+                        <p class="text-sm font-bold text-slate-800 mt-3 text-left">
+                            当社の強力高圧洗浄機、またはトーラー機により、こびりついた汚れを根こそぎ粉砕。新築の配管のように美しい水流が戻りました。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: SERVICES & PRICING (料金も大きく明瞭にリニューアル) -->
+        <section class="py-16 sm:py-24 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Section Header -->
+                <div class="text-center max-w-4xl mx-auto mb-16 space-y-4">
+                    <span class="bg-water-500 text-white font-black px-4 py-1 rounded text-sm uppercase tracking-widest inline-block">
+                        Services & Prices
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-black text-slate-900 leading-tight">
+                        水回りのトラブル別 <span class="highlight-yellow text-red-600 font-black px-1">基本料金・修理時間</span>
+                    </h2>
+                    <p class="text-lg sm:text-xl font-bold text-slate-800 mt-2">
+                        作業前にお見積もりを作成し、それ以外の料金は一切発生いたしません。
+                    </p>
+                    <div class="w-20 h-1.5 bg-water-500 mx-auto rounded-full mt-4"></div>
+                </div>
+
+                <!-- 写真・イラスト入り料金カード（視覚重視6選） -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
                     
                     <!-- 1. トイレのトラブル -->
-                    <div class="bg-white rounded-3xl border border-water-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
+                    <div class="bg-white rounded-3xl border-2 border-water-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
                         <div>
-                            <!-- カテゴリヘッダー -->
-                            <div class="bg-gradient-to-r from-water-500 to-water-600 px-6 py-4 flex justify-between items-center text-white">
-                                <h3 class="text-xl font-extrabold tracking-wider flex items-center gap-2">
-                                    <span class="text-amber-300 font-black">トイレ</span>のトラブル
+                            <div class="bg-gradient-to-r from-water-600 to-water-700 px-6 py-5 text-white text-center">
+                                <h3 class="text-2xl font-black tracking-wider flex items-center justify-center gap-2">
+                                    🚽 <span class="text-yellow-300">トイレ</span>のつまり・水漏れ
                                 </h3>
                             </div>
-                            <div class="p-5 space-y-4">
-                                <p class="text-slate-500 text-xs font-semibold">日本の個室トイレ・便器つまり・水漏れ修理</p>
-                                <!-- トラブルイメージ写真 -->
-                                <div class="relative w-full h-44 rounded-2xl overflow-hidden bg-slate-100 border border-slate-100">
+                            <div class="p-6 space-y-4">
+                                <p class="text-slate-800 text-base font-bold bg-slate-100 p-2 rounded text-center">
+                                    便器のつまり・水が止まらない・水が溢れる
+                                </p>
+                                <div class="relative w-full h-48 rounded-2xl overflow-hidden bg-slate-200 border border-slate-300">
                                     <img 
                                         src="toilet.png" 
-                                        alt="日本の個室トイレ" 
+                                        alt="トイレのトラブル" 
                                         class="w-full h-full object-cover"
-                                        onerror="this.onerror=null; this.src='https://placehold.co/600x400/e0f2fe/0369a1?text=トイレのトラブル';"
+                                        onerror="this.onerror=null; this.src='https://placehold.co/600x400/e0f2fe/0369a1?text=トイレ修理';"
                                     >
                                 </div>
-                                <!-- トラブル例リスト -->
-                                <ul class="text-[11px] text-slate-500 space-y-1 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                    <li class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-water-500 rounded-full"></span>便器のつまり・水が溢れてくる</li>
-                                    <li class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-water-500 rounded-full"></span>手洗管やタンクから水が出ない・止まらない</li>
+                                <ul class="text-sm font-bold text-slate-800 space-y-2 bg-water-50/50 p-4 rounded-xl border border-water-100">
+                                    <li class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span>トイレットペーパーの詰まり</li>
+                                    <li class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span>タンクから水がポタポタ出続ける</li>
                                 </ul>
                             </div>
                         </div>
-                        <!-- 料金・作業時間メーター -->
-                        <div class="border-t border-slate-100 bg-water-50/20 grid grid-cols-2 text-center divide-x divide-slate-100 font-sans">
-                            <div class="py-4">
-                                <p class="text-[10px] font-bold text-slate-400">基本料金</p>
-                                <p class="text-orange-600 font-black tracking-tight leading-none mt-1">
-                                    <span class="text-xs">キャンペーン適用で</span><br>
-                                    <span class="text-xl sm:text-2xl font-en font-black">¥1,980</span><span class="text-xs">〜</span>
+                        <div class="border-t-2 border-slate-100 bg-water-50/40 grid grid-cols-2 text-center divide-x-2 divide-slate-100 font-sans">
+                            <div class="py-5">
+                                <p class="text-xs font-bold text-slate-600">割引後基本料金</p>
+                                <p class="text-red-600 font-black tracking-tight leading-none mt-1">
+                                    <span class="text-2xl sm:text-3xl font-en font-black">¥1,980</span><span class="text-sm">〜</span>
                                 </p>
                             </div>
-                            <div class="py-4">
-                                <p class="text-[10px] font-bold text-slate-400">作業時間</p>
-                                <p class="text-water-600 font-black tracking-tight leading-none mt-1">
-                                    <span class="text-xs">スピード解決</span><br>
-                                    <span class="text-xl sm:text-2xl font-en font-black">10分</span><span class="text-xs">〜</span>
+                            <div class="py-5">
+                                <p class="text-xs font-bold text-slate-600">目安作業時間</p>
+                                <p class="text-water-700 font-black tracking-tight leading-none mt-1">
+                                    <span class="text-2xl sm:text-3xl font-en font-black">10分</span><span class="text-sm">〜</span>
                                 </p>
                             </div>
                         </div>
                     </div>
 
                     <!-- 2. キッチンのトラブル -->
-                    <div class="bg-white rounded-3xl border border-water-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
+                    <div class="bg-white rounded-3xl border-2 border-water-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
                         <div>
-                            <!-- カテゴリヘッダー -->
-                            <div class="bg-gradient-to-r from-water-500 to-water-600 px-6 py-4 flex justify-between items-center text-white">
-                                <h3 class="text-xl font-extrabold tracking-wider flex items-center gap-2">
-                                    <span class="text-amber-300 font-black">キッチン</span>のトラブル
+                            <div class="bg-gradient-to-r from-water-600 to-water-700 px-6 py-5 text-white text-center">
+                                <h3 class="text-2xl font-black tracking-wider flex items-center justify-center gap-2">
+                                    🍳 <span class="text-yellow-300">台所</span>のつまり・水漏れ
                                 </h3>
                             </div>
-                            <div class="p-5 space-y-4">
-                                <p class="text-slate-500 text-xs font-semibold">排水口のつまり・シンク下からの漏水修理</p>
-                                <!-- トラブルイメージ写真 -->
-                                <div class="relative w-full h-44 rounded-2xl overflow-hidden bg-slate-100 border border-slate-100">
+                            <div class="p-6 space-y-4">
+                                <p class="text-slate-800 text-base font-bold bg-slate-100 p-2 rounded text-center">
+                                    排水口のつまり・蛇口の漏水・シンク下水漏れ
+                                </p>
+                                <div class="relative w-full h-48 rounded-2xl overflow-hidden bg-slate-200 border border-slate-300">
                                     <img 
                                         src="kitchen.png" 
                                         alt="キッチンのトラブル" 
                                         class="w-full h-full object-cover"
-                                        onerror="this.onerror=null; this.src='https://placehold.co/600x400/e0f2fe/0369a1?text=キッチンのトラブル';"
+                                        onerror="this.onerror=null; this.src='https://placehold.co/600x400/e0f2fe/0369a1?text=台所キッチン修理';"
                                     >
                                 </div>
-                                <!-- トラブル例リスト -->
-                                <ul class="text-[11px] text-slate-500 space-y-1 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                    <li class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-water-500 rounded-full"></span>排水口がつまってシンクに水が溜まる</li>
-                                    <li class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-water-500 rounded-full"></span>蛇口の根元から水がポタポタ漏れる</li>
+                                <ul class="text-sm font-bold text-slate-800 space-y-2 bg-water-50/50 p-4 rounded-xl border border-water-100">
+                                    <li class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span>洗い場シンク下に水が漏れ出している</li>
+                                    <li class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span>排水口が詰まってドブ臭い・流れない</li>
                                 </ul>
                             </div>
                         </div>
-                        <!-- 料金・作業時間メーター -->
-                        <div class="border-t border-slate-100 bg-water-50/20 grid grid-cols-2 text-center divide-x divide-slate-100 font-sans">
-                            <div class="py-4">
-                                <p class="text-[10px] font-bold text-slate-400">基本料金</p>
-                                <p class="text-orange-600 font-black tracking-tight leading-none mt-1">
-                                    <span class="text-xs">キャンペーン適用で</span><br>
-                                    <span class="text-xl sm:text-2xl font-en font-black">¥1,980</span><span class="text-xs">〜</span>
+                        <div class="border-t-2 border-slate-100 bg-water-50/40 grid grid-cols-2 text-center divide-x-2 divide-slate-100 font-sans">
+                            <div class="py-5">
+                                <p class="text-xs font-bold text-slate-600">割引後基本料金</p>
+                                <p class="text-red-600 font-black tracking-tight leading-none mt-1">
+                                    <span class="text-2xl sm:text-3xl font-en font-black">¥1,980</span><span class="text-sm">〜</span>
                                 </p>
                             </div>
-                            <div class="py-4">
-                                <p class="text-[10px] font-bold text-slate-400">作業時間</p>
-                                <p class="text-water-600 font-black tracking-tight leading-none mt-1">
-                                    <span class="text-xs">スピード解決</span><br>
-                                    <span class="text-xl sm:text-2xl font-en font-black">10分</span><span class="text-xs">〜</span>
+                            <div class="py-5">
+                                <p class="text-xs font-bold text-slate-600">目安作業時間</p>
+                                <p class="text-water-700 font-black tracking-tight leading-none mt-1">
+                                    <span class="text-2xl sm:text-3xl font-en font-black">15分</span><span class="text-sm">〜</span>
                                 </p>
                             </div>
                         </div>
                     </div>
 
                     <!-- 3. お風呂のトラブル -->
-                    <div class="bg-white rounded-3xl border border-water-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
+                    <div class="bg-white rounded-3xl border-2 border-water-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
                         <div>
-                            <!-- カテゴリヘッダー -->
-                            <div class="bg-gradient-to-r from-water-500 to-water-600 px-6 py-4 flex justify-between items-center text-white">
-                                <h3 class="text-xl font-extrabold tracking-wider flex items-center gap-2">
-                                    <span class="text-amber-300 font-black">お風呂</span>のトラブル
+                            <div class="bg-gradient-to-r from-water-600 to-water-700 px-6 py-5 text-white text-center">
+                                <h3 class="text-2xl font-black tracking-wider flex items-center justify-center gap-2">
+                                    🛀 <span class="text-yellow-300">お風呂</span>のつまり・水漏れ
                                 </h3>
                             </div>
-                            <div class="p-5 space-y-4">
-                                <p class="text-slate-500 text-xs font-semibold">洗い場の排水口つまり・シャワーからの水漏れ</p>
-                                <!-- トラブルイメージ写真 -->
-                                <div class="relative w-full h-44 rounded-2xl overflow-hidden bg-slate-100 border border-slate-100">
+                            <div class="p-6 space-y-4">
+                                <p class="text-slate-800 text-base font-bold bg-slate-100 p-2 rounded text-center">
+                                    シャワーの水漏れ・洗い場排水口つまり
+                                </p>
+                                <div class="relative w-full h-48 rounded-2xl overflow-hidden bg-slate-200 border border-slate-300">
                                     <img 
                                         src="bath.png" 
                                         alt="お風呂のトラブル" 
                                         class="w-full h-full object-cover"
-                                        onerror="this.onerror=null; this.src='https://placehold.co/600x400/e0f2fe/0369a1?text=お風呂のトラブル';"
+                                        onerror="this.onerror=null; this.src='https://placehold.co/600x400/e0f2fe/0369a1?text=お風呂浴室修理';"
                                     >
                                 </div>
-                                <!-- トラブル例リスト -->
-                                <ul class="text-[11px] text-slate-500 space-y-1 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                    <li class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-water-500 rounded-full"></span>排水口が詰まって浴槽の水が流れない</li>
-                                    <li class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-water-500 rounded-full"></span>シャワーや蛇口の切り替えハンドルがきかない</li>
+                                <ul class="text-sm font-bold text-slate-800 space-y-2 bg-water-50/50 p-4 rounded-xl border border-water-100">
+                                    <li class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span>シャワーヘッドや蛇口からポタポタ漏れる</li>
+                                    <li class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span>髪の毛や石鹸カスの蓄積による排水管つまり</li>
                                 </ul>
                             </div>
                         </div>
-                        <!-- 料金・作業時間メーター -->
-                        <div class="border-t border-slate-100 bg-water-50/20 grid grid-cols-2 text-center divide-x divide-slate-100 font-sans">
-                            <div class="py-4">
-                                <p class="text-[10px] font-bold text-slate-400">基本料金</p>
-                                <p class="text-orange-600 font-black tracking-tight leading-none mt-1">
-                                    <span class="text-xs">キャンペーン適用で</span><br>
-                                    <span class="text-xl sm:text-2xl font-en font-black">¥1,980</span><span class="text-xs">〜</span>
+                        <div class="border-t-2 border-slate-100 bg-water-50/40 grid grid-cols-2 text-center divide-x-2 divide-slate-100 font-sans">
+                            <div class="py-5">
+                                <p class="text-xs font-bold text-slate-600">割引後基本料金</p>
+                                <p class="text-red-600 font-black tracking-tight leading-none mt-1">
+                                    <span class="text-2xl sm:text-3xl font-en font-black">¥1,980</span><span class="text-sm">〜</span>
                                 </p>
                             </div>
-                            <div class="py-4">
-                                <p class="text-[10px] font-bold text-slate-400">作業時間</p>
-                                <p class="text-water-600 font-black tracking-tight leading-none mt-1">
-                                    <span class="text-xs">スピード解決</span><br>
-                                    <span class="text-xl sm:text-2xl font-en font-black">10分</span><span class="text-xs">〜</span>
+                            <div class="py-5">
+                                <p class="text-xs font-bold text-slate-600">目安作業時間</p>
+                                <p class="text-water-700 font-black tracking-tight leading-none mt-1">
+                                    <span class="text-2xl sm:text-3xl font-en font-black">15分</span><span class="text-sm">〜</span>
                                 </p>
                             </div>
                         </div>
                     </div>
 
                     <!-- 4. 洗面所のトラブル -->
-                    <div class="bg-white rounded-3xl border border-water-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
+                    <div class="bg-white rounded-3xl border-2 border-water-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
                         <div>
-                            <!-- カテゴリヘッダー -->
-                            <div class="bg-gradient-to-r from-water-500 to-water-600 px-6 py-4 flex justify-between items-center text-white">
-                                <h3 class="text-xl font-extrabold tracking-wider flex items-center gap-2">
-                                    <span class="text-amber-300 font-black">洗面所</span>のトラブル
+                            <div class="bg-gradient-to-r from-water-600 to-water-700 px-6 py-5 text-white text-center">
+                                <h3 class="text-2xl font-black tracking-wider flex items-center justify-center gap-2">
+                                    🧼 <span class="text-yellow-300">洗面所</span>のつまり・水漏れ
                                 </h3>
                             </div>
-                            <div class="p-5 space-y-4">
-                                <p class="text-slate-500 text-xs font-semibold">独立洗面所・シャワーホース・洗面下S字パイプ修理</p>
-                                <!-- トラブルイメージ写真 -->
-                                <div class="relative w-full h-44 rounded-2xl overflow-hidden bg-slate-100 border border-slate-100">
+                            <div class="p-6 space-y-4">
+                                <p class="text-slate-800 text-base font-bold bg-slate-100 p-2 rounded text-center">
+                                    蛇口シャワーホースの漏水・S字パイプ修理
+                                </p>
+                                <div class="relative w-full h-48 rounded-2xl overflow-hidden bg-slate-200 border border-slate-300">
                                     <img 
                                         src="washroom.png" 
                                         alt="洗面所のトラブル" 
                                         class="w-full h-full object-cover"
-                                        onerror="this.onerror=null; this.src='https://placehold.co/600x400/e0f2fe/0369a1?text=洗面所のトラブル';"
+                                        onerror="this.onerror=null; this.src='https://placehold.co/600x400/e0f2fe/0369a1?text=洗面所水漏れ';"
                                     >
                                 </div>
-                                <!-- トラブル例リスト -->
-                                <ul class="text-[11px] text-slate-500 space-y-1 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                    <li class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-water-500 rounded-full"></span>洗面台の下のS字パイプから水がポタポタ染み出る</li>
-                                    <li class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-water-500 rounded-full"></span>排水口に異物を落とした、髪の毛つまり</li>
+                                <ul class="text-sm font-bold text-slate-800 space-y-2 bg-water-50/50 p-4 rounded-xl border border-water-100">
+                                    <li class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span>指輪や異物を排水口に落としてしまった</li>
+                                    <li class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span>洗面台下の収納パイプから水がポタポタ漏れる</li>
                                 </ul>
                             </div>
                         </div>
-                        <!-- 料金・作業時間メーター -->
-                        <div class="border-t border-slate-100 bg-water-50/20 grid grid-cols-2 text-center divide-x divide-slate-100 font-sans">
-                            <div class="py-4">
-                                <p class="text-[10px] font-bold text-slate-400">基本料金</p>
-                                <p class="text-orange-600 font-black tracking-tight leading-none mt-1">
-                                    <span class="text-xs">キャンペーン適用で</span><br>
-                                    <span class="text-xl sm:text-2xl font-en font-black">¥1,980</span><span class="text-xs">〜</span>
+                        <div class="border-t-2 border-slate-100 bg-water-50/40 grid grid-cols-2 text-center divide-x-2 divide-slate-100 font-sans">
+                            <div class="py-5">
+                                <p class="text-xs font-bold text-slate-600">割引後基本料金</p>
+                                <p class="text-red-600 font-black tracking-tight leading-none mt-1">
+                                    <span class="text-2xl sm:text-3xl font-en font-black">¥1,980</span><span class="text-sm">〜</span>
                                 </p>
                             </div>
-                            <div class="py-4">
-                                <p class="text-[10px] font-bold text-slate-400">作業時間</p>
-                                <p class="text-water-600 font-black tracking-tight leading-none mt-1">
-                                    <span class="text-xs">スピード解決</span><br>
-                                    <span class="text-xl sm:text-2xl font-en font-black">10分</span><span class="text-xs">〜</span>
+                            <div class="py-5">
+                                <p class="text-xs font-bold text-slate-600">目安作業時間</p>
+                                <p class="text-water-700 font-black tracking-tight leading-none mt-1">
+                                    <span class="text-2xl sm:text-3xl font-en font-black">10分</span><span class="text-sm">〜</span>
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 5. 蛇口のトラブル -->
-                    <div class="bg-white rounded-3xl border border-water-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
+                    <!-- 5. 蛇口・パッキンの交換 -->
+                    <div class="bg-white rounded-3xl border-2 border-water-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
                         <div>
-                            <!-- カテゴリヘッダー -->
-                            <div class="bg-gradient-to-r from-water-500 to-water-600 px-6 py-4 flex justify-between items-center text-white">
-                                <h3 class="text-xl font-extrabold tracking-wider flex items-center gap-2">
-                                    <span class="text-amber-300 font-black">蛇口</span>のトラブル
+                            <div class="bg-gradient-to-r from-water-600 to-water-700 px-6 py-5 text-white text-center">
+                                <h3 class="text-2xl font-black tracking-wider flex items-center justify-center gap-2">
+                                    🚰 <span class="text-yellow-300">蛇口</span>の水漏れパッキン交換
                                 </h3>
                             </div>
-                            <div class="p-5 space-y-4">
-                                <p class="text-slate-500 text-xs font-semibold">日本の台所・浴室・洗濯蛇口のパッキン/カートリッジ交換</p>
-                                <!-- トラブルイメージ写真 -->
-                                <div class="relative w-full h-44 rounded-2xl overflow-hidden bg-slate-100 border border-slate-100">
+                            <div class="p-6 space-y-4">
+                                <p class="text-slate-800 text-base font-bold bg-slate-100 p-2 rounded text-center">
+                                    蛇口のパッキン摩耗・水がしっかり締まらない
+                                </p>
+                                <div class="relative w-full h-48 rounded-2xl overflow-hidden bg-slate-200 border border-slate-300">
                                     <img 
                                         src="faucet.png" 
                                         alt="蛇口のトラブル" 
                                         class="w-full h-full object-cover"
-                                        onerror="this.onerror=null; this.src='https://placehold.co/600x400/e0f2fe/0369a1?text=蛇口のトラブル';"
+                                        onerror="this.onerror=null; this.src='https://placehold.co/600x400/e0f2fe/0369a1?text=蛇口修理・交換';"
                                     >
                                 </div>
-                                <!-- トラブル例リスト -->
-                                <ul class="text-[11px] text-slate-500 space-y-1 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                    <li class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-water-500 rounded-full"></span>パッキン劣化による隙間からの水漏れ</li>
-                                    <li class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-water-500 rounded-full"></span>レバーが固い、回らない、温度調整がきかない</li>
+                                <ul class="text-sm font-bold text-slate-800 space-y-2 bg-water-50/50 p-4 rounded-xl border border-water-100">
+                                    <li class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span>レバーを締めても水滴がずっと垂れている</li>
+                                    <li class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span>水道代が急に上がったので漏水がないか調査</li>
                                 </ul>
                             </div>
                         </div>
-                        <!-- 料金・作業時間メーター -->
-                        <div class="border-t border-slate-100 bg-water-50/20 grid grid-cols-2 text-center divide-x divide-slate-100 font-sans">
-                            <div class="py-4">
-                                <p class="text-[10px] font-bold text-slate-400">基本料金</p>
-                                <p class="text-orange-600 font-black tracking-tight leading-none mt-1">
-                                    <span class="text-xs">キャンペーン適用で</span><br>
-                                    <span class="text-xl sm:text-2xl font-en font-black">¥1,980</span><span class="text-xs">〜</span>
+                        <div class="border-t-2 border-slate-100 bg-water-50/40 grid grid-cols-2 text-center divide-x-2 divide-slate-100 font-sans">
+                            <div class="py-5">
+                                <p class="text-xs font-bold text-slate-600">割引後基本料金</p>
+                                <p class="text-red-600 font-black tracking-tight leading-none mt-1">
+                                    <span class="text-2xl sm:text-3xl font-en font-black">¥1,980</span><span class="text-sm">〜</span>
                                 </p>
                             </div>
-                            <div class="py-4">
-                                <p class="text-[10px] font-bold text-slate-400">作業時間</p>
-                                <p class="text-water-600 font-black tracking-tight leading-none mt-1">
-                                    <span class="text-xs">スピード解決</span><br>
-                                    <span class="text-xl sm:text-2xl font-en font-black">10分</span><span class="text-xs">〜</span>
+                            <div class="py-5">
+                                <p class="text-xs font-bold text-slate-600">目安作業時間</p>
+                                <p class="text-water-700 font-black tracking-tight leading-none mt-1">
+                                    <span class="text-2xl sm:text-3xl font-en font-black">10分</span><span class="text-sm">〜</span>
                                 </p>
                             </div>
                         </div>
                     </div>
 
                     <!-- 6. 給湯器のトラブル -->
-                    <div class="bg-white rounded-3xl border border-water-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
+                    <div class="bg-white rounded-3xl border-2 border-water-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
                         <div>
-                            <!-- カテゴリヘッダー -->
-                            <div class="bg-gradient-to-r from-water-500 to-water-600 px-6 py-4 flex justify-between items-center text-white">
-                                <h3 class="text-xl font-extrabold tracking-wider flex items-center gap-2">
-                                    <span class="text-amber-300 font-black">給湯器</span>のトラブル
+                            <div class="bg-gradient-to-r from-water-600 to-water-700 px-6 py-5 text-white text-center">
+                                <h3 class="text-2xl font-black tracking-wider flex items-center justify-center gap-2">
+                                    🔥 <span class="text-yellow-300">給湯器</span>のお湯が出ない
                                 </h3>
                             </div>
-                            <div class="p-5 space-y-4">
-                                <p class="text-slate-500 text-xs font-semibold">ガス給湯器・お湯が出ない・水漏れ修理交換</p>
-                                <!-- トラブルイメージ写真 -->
-                                <div class="relative w-full h-44 rounded-2xl overflow-hidden bg-slate-100 border border-slate-100">
+                            <div class="p-6 space-y-4">
+                                <p class="text-slate-800 text-base font-bold bg-slate-100 p-2 rounded text-center">
+                                    ガス給湯器・お湯がぬるい・エラーが表示される
+                                </p>
+                                <div class="relative w-full h-48 rounded-2xl overflow-hidden bg-slate-200 border border-slate-300">
                                     <img 
                                         src="heater.png" 
                                         alt="給湯器のトラブル" 
                                         class="w-full h-full object-cover"
-                                        onerror="this.onerror=null; this.src='https://placehold.co/600x400/e0f2fe/0369a1?text=給湯器のトラブル';"
+                                        onerror="this.onerror=null; this.src='https://placehold.co/600x400/e0f2fe/0369a1?text=給湯器ガス機器修理';"
                                     >
                                 </div>
-                                <!-- トラブル例リスト -->
-                                <ul class="text-[11px] text-slate-500 space-y-1 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                    <li class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-water-500 rounded-full"></span>お湯が出ない、急に水になってしまう</li>
-                                    <li class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-water-500 rounded-full"></span>給湯器から異音がする、水漏れしている</li>
+                                <ul class="text-sm font-bold text-slate-800 space-y-2 bg-water-50/50 p-4 rounded-xl border border-water-100">
+                                    <li class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span>リモコンにエラーコードが点滅している</li>
+                                    <li class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span>ガス給湯器の本体からジワジワ水が漏れる</li>
                                 </ul>
                             </div>
                         </div>
-                        <!-- 料金・作業時間メーター -->
-                        <div class="border-t border-slate-100 bg-water-50/20 grid grid-cols-2 text-center divide-x divide-slate-100 font-sans">
-                            <div class="py-4">
-                                <p class="text-[10px] font-bold text-slate-400">基本料金</p>
-                                <p class="text-orange-600 font-black tracking-tight leading-none mt-1">
-                                    <span class="text-xs">キャンペーン適用で</span><br>
-                                    <span class="text-xl sm:text-2xl font-en font-black">¥1,980</span><span class="text-xs">〜</span>
+                        <div class="border-t-2 border-slate-100 bg-water-50/40 grid grid-cols-2 text-center divide-x-2 divide-slate-100 font-sans">
+                            <div class="py-5">
+                                <p class="text-xs font-bold text-slate-600">割引後基本料金</p>
+                                <p class="text-red-600 font-black tracking-tight leading-none mt-1">
+                                    <span class="text-2xl sm:text-3xl font-en font-black">¥1,980</span><span class="text-sm">〜</span>
                                 </p>
                             </div>
-                            <div class="py-4">
-                                <p class="text-[10px] font-bold text-slate-400">作業時間</p>
-                                <p class="text-water-600 font-black tracking-tight leading-none mt-1">
-                                    <span class="text-xs">スピード解決</span><br>
-                                    <span class="text-xl sm:text-2xl font-en font-black">10分</span><span class="text-xs">〜</span>
+                            <div class="py-5">
+                                <p class="text-xs font-bold text-slate-600">目安作業時間</p>
+                                <p class="text-water-700 font-black tracking-tight leading-none mt-1">
+                                    <span class="text-2xl sm:text-3xl font-en font-black">30分</span><span class="text-sm">〜</span>
                                 </p>
                             </div>
                         </div>
@@ -527,42 +641,45 @@
 
                 </div>
 
-                <!-- Detailed Table (High Transparency) -->
-                <div class="bg-white rounded-3xl p-6 sm:p-10 border border-water-100 shadow-xl max-w-4xl mx-auto overflow-hidden">
-                    <h4 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-                        <span class="w-1.5 h-6 bg-water-500 rounded-full"></span>
-                        他社と比べて一目瞭然！明確な料金システム
+                <!-- 比較表 (高齢者向けに極めてはっきりとしたフォント・大きな文字に修正) -->
+                <div class="bg-white rounded-3xl p-8 sm:p-12 border-4 border-water-500 shadow-2xl max-w-4xl mx-auto overflow-hidden">
+                    <h4 class="text-2xl sm:text-3xl font-black text-slate-900 mb-8 flex items-center justify-center gap-2">
+                        <span class="w-2.5 h-8 bg-water-500 rounded-full"></span>
+                        他社と比べて一目瞭然！明朗な料金システム
                     </h4>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm border-collapse">
+                        <table class="w-full text-left text-lg border-collapse">
                             <thead>
-                                <tr class="border-b border-slate-100 bg-water-50/50">
-                                    <th class="p-4 font-bold text-slate-700 rounded-l-xl">項目</th>
-                                    <th class="p-4 font-bold text-water-700">当社 (クリーンウォーター)</th>
-                                    <th class="p-4 font-bold text-slate-500 rounded-r-xl">一般的な他社平均</th>
+                                <tr class="border-b-4 border-water-100 bg-water-50/50">
+                                    <th class="p-5 font-black text-slate-800 rounded-l-xl">費用項目</th>
+                                    <th class="p-5 font-black text-water-700 text-xl">当社 (クリーンサポート)</th>
+                                    <th class="p-5 font-bold text-slate-500 rounded-r-xl">一般的な他社平均</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-100">
+                            <tbody class="divide-y-2 divide-slate-100 font-bold text-slate-800">
                                 <tr>
-                                    <td class="p-4 font-bold text-slate-700">出張料・見積り料</td>
-                                    <td class="p-4 text-water-600 font-extrabold flex items-center gap-1">
-                                        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i> ¥0（完全無料）
+                                    <td class="p-5 font-black text-slate-900">出張料・お見積り・キャンセル</td>
+                                    <td class="p-5 text-red-600 font-black text-xl flex items-center gap-1.5">
+                                        <i data-lucide="check-circle-2" class="w-6 h-6 text-emerald-500 flex-shrink-0"></i> 
+                                        <span>完全無料 (¥0)</span>
                                     </td>
-                                    <td class="p-4 text-slate-500">¥3,300〜¥5,500</td>
+                                    <td class="p-5 text-slate-500 text-base">¥3,300〜¥5,500程度</td>
                                 </tr>
                                 <tr>
-                                    <td class="p-4 font-bold text-slate-700">キャンセル料</td>
-                                    <td class="p-4 text-water-600 font-extrabold flex items-center gap-1">
-                                        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i> ¥0（無料）
+                                    <td class="p-5 font-black text-slate-900">時間外・深夜割増費用</td>
+                                    <td class="p-5 text-red-600 font-black text-xl flex items-center gap-1.5">
+                                        <i data-lucide="check-circle-2" class="w-6 h-6 text-emerald-500 flex-shrink-0"></i>
+                                        <span>0円 (時間帯問わず定額)</span>
                                     </td>
-                                    <td class="p-4 text-slate-500">見積り後は発生する場合あり</td>
+                                    <td class="p-5 text-slate-500 text-base">夜間・早朝は ¥5,000程度割増</td>
                                 </tr>
                                 <tr>
-                                    <td class="p-4 font-bold text-slate-700">時間外（夜間・早朝）割増</td>
-                                    <td class="p-4 text-water-600 font-extrabold flex items-center gap-1">
-                                        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i> なし
+                                    <td class="p-5 font-black text-slate-900">お見積り提示後の追加費用</td>
+                                    <td class="p-5 text-red-600 font-black text-xl flex items-center gap-1.5">
+                                        <i data-lucide="check-circle-2" class="w-6 h-6 text-emerald-500 flex-shrink-0"></i>
+                                        <span>一切なし (追加請求は0円)</span>
                                     </td>
-                                    <td class="p-4 text-slate-500">¥3,300〜¥11,000プラス</td>
+                                    <td class="p-5 text-slate-500 text-base">追加工事と称して高額請求の事例あり</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -571,146 +688,153 @@
             </div>
         </section>
 
-        <!-- SECTION 3: STEP TO SOLVE -->
-        <section class="py-20 bg-white">
+        <!-- SECTION 3: STEP TO SOLVE (お申し込みから完了までの流れ：簡潔かつ番号を極大化) -->
+        <section class="py-16 sm:py-24 bg-white border-b border-slate-200 text-center">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
                 <!-- Section Header -->
-                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                    <span class="text-water-600 font-bold uppercase tracking-widest text-sm">Step by Step</span>
-                    <h2 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
-                        お申し込みから修理完了までの流れ
+                <div class="text-center max-w-4xl mx-auto mb-16 space-y-4">
+                    <span class="bg-water-100 text-water-800 font-black px-4 py-1.5 rounded-full text-base inline-block">
+                        お電話からの流れ
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-black text-slate-900 leading-tight">
+                        かんたん４ステップでトラブル解決！
                     </h2>
-                    <div class="w-12 h-1 bg-water-500 mx-auto rounded-full"></div>
+                    <div class="w-20 h-1.5 bg-water-500 mx-auto rounded-full mt-4"></div>
                 </div>
 
                 <!-- Steps -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
                     <!-- Step 1 -->
-                    <div class="relative bg-gradient-to-b from-white to-water-50/30 p-6 rounded-2xl border border-water-100 text-center">
-                        <span class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-water-600 text-white font-en font-black text-lg flex items-center justify-center rounded-full shadow-lg shadow-water-600/30">1</span>
-                        <div class="w-12 h-12 bg-water-100 text-water-600 rounded-full flex items-center justify-center mx-auto mt-4 mb-4">
-                            <i data-lucide="phone-call" class="w-6 h-6"></i>
+                    <div class="relative bg-gradient-to-b from-white to-water-50/50 p-8 rounded-3xl border-2 border-water-100 text-center shadow-sm">
+                        <span class="absolute -top-7 left-1/2 -translate-x-1/2 w-14 h-14 bg-red-600 text-white font-en font-black text-2xl flex items-center justify-center rounded-full shadow-lg shadow-red-600/30">1</span>
+                        <div class="w-16 h-16 bg-water-100 text-water-600 rounded-full flex items-center justify-center mx-auto mt-6 mb-4">
+                            <i data-lucide="phone-call" class="w-8 h-8"></i>
                         </div>
-                        <h3 class="font-bold text-lg text-slate-900 mb-2">無料でお問い合わせ</h3>
-                        <p class="text-xs text-slate-500 leading-relaxed">
-                            まずはお電話から状況をお伝えください。簡単なアドバイスや到着時間の目安をお伝えします。
+                        <h3 class="font-black text-xl text-slate-900 mb-2">まずはお電話（無料）</h3>
+                        <p class="text-base text-slate-800 font-medium">
+                            まずはお電話でお困りの状況をお聞かせください。オペレーターが優しく対応し、すぐに到着予定時間をご案内します。
                         </p>
                     </div>
 
                     <!-- Step 2 -->
-                    <div class="relative bg-gradient-to-b from-white to-water-50/30 p-6 rounded-2xl border border-water-100 text-center">
-                        <span class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-water-600 text-white font-en font-black text-lg flex items-center justify-center rounded-full shadow-lg shadow-water-600/30">2</span>
-                        <div class="w-12 h-12 bg-water-100 text-water-600 rounded-full flex items-center justify-center mx-auto mt-4 mb-4">
-                            <i data-lucide="map-pin" class="w-6 h-6"></i>
+                    <div class="relative bg-gradient-to-b from-white to-water-50/50 p-8 rounded-3xl border-2 border-water-100 text-center shadow-sm">
+                        <span class="absolute -top-7 left-1/2 -translate-x-1/2 w-14 h-14 bg-red-600 text-white font-en font-black text-2xl flex items-center justify-center rounded-full shadow-lg shadow-red-600/30">2</span>
+                        <div class="w-16 h-16 bg-water-100 text-water-600 rounded-full flex items-center justify-center mx-auto mt-6 mb-4">
+                            <i data-lucide="map-pin" class="w-8 h-8"></i>
                         </div>
-                        <h3 class="font-bold text-lg text-slate-900 mb-2">現場へ迅速に駆けつけ</h3>
-                        <p class="text-xs text-slate-500 leading-relaxed">
-                            最短10分でお客様のご自宅までサービススタッフが直行します。もちろん、ご都合の良い日時指定も可能です。
+                        <h3 class="font-black text-xl text-slate-900 mb-2">現地へ急行・状況調査</h3>
+                        <p class="text-base text-slate-800 font-medium">
+                            独自の待機巡回ルートから、もっとも近いプロのサービスエンジニアが最短10分でお客様のもとへお伺いします。
                         </p>
                     </div>
 
                     <!-- Step 3 -->
-                    <div class="relative bg-gradient-to-b from-white to-water-50/30 p-6 rounded-2xl border border-water-100 text-center">
-                        <span class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-water-600 text-white font-en font-black text-lg flex items-center justify-center rounded-full shadow-lg shadow-water-600/30">3</span>
-                        <div class="w-12 h-12 bg-water-100 text-water-600 rounded-full flex items-center justify-center mx-auto mt-4 mb-4">
-                            <i data-lucide="file-text" class="w-6 h-6"></i>
+                    <div class="relative bg-gradient-to-b from-white to-water-50/50 p-8 rounded-3xl border-2 border-water-100 text-center shadow-sm">
+                        <span class="absolute -top-7 left-1/2 -translate-x-1/2 w-14 h-14 bg-red-600 text-white font-en font-black text-2xl flex items-center justify-center rounded-full shadow-lg shadow-red-600/30">3</span>
+                        <div class="w-16 h-16 bg-water-100 text-water-600 rounded-full flex items-center justify-center mx-auto mt-6 mb-4">
+                            <i data-lucide="file-text" class="w-8 h-8"></i>
                         </div>
-                        <h3 class="font-bold text-lg text-slate-900 mb-2">状態確認・事前見積り</h3>
-                        <p class="text-xs text-slate-500 leading-relaxed">
-                            まずは原因を特定し、見積書を作成します。ご納得いただけるまで、無理な施工は絶対にいたしません。
+                        <h3 class="font-black text-xl text-slate-900 mb-2">作業前の明確なお見積り</h3>
+                        <p class="text-base text-slate-800 font-medium">
+                            被害状況を詳細に確認し、ハッキリした作業費用をお出しします。内容にご納得いただかない限り、勝手な工事は行いません。
                         </p>
                     </div>
 
                     <!-- Step 4 -->
-                    <div class="relative bg-gradient-to-b from-white to-water-50/30 p-6 rounded-2xl border border-water-100 text-center">
-                        <span class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-water-600 text-white font-en font-black text-lg flex items-center justify-center rounded-full shadow-lg shadow-water-600/30">4</span>
-                        <div class="w-12 h-12 bg-water-100 text-water-600 rounded-full flex items-center justify-center mx-auto mt-4 mb-4">
-                            <i data-lucide="check-check" class="w-6 h-6"></i>
+                    <div class="relative bg-gradient-to-b from-white to-water-50/50 p-8 rounded-3xl border-2 border-water-100 text-center shadow-sm">
+                        <span class="absolute -top-7 left-1/2 -translate-x-1/2 w-14 h-14 bg-red-600 text-white font-en font-black text-2xl flex items-center justify-center rounded-full shadow-lg shadow-red-600/30">4</span>
+                        <div class="w-16 h-16 bg-water-100 text-water-600 rounded-full flex items-center justify-center mx-auto mt-6 mb-4">
+                            <i data-lucide="check-check" class="w-8 h-8"></i>
                         </div>
-                        <h3 class="font-bold text-lg text-slate-900 mb-2">スピード修理・お支払い</h3>
-                        <p class="text-xs text-slate-500 leading-relaxed">
-                            経験豊富なプロが丁寧に最短時間で作業を完了させます。修理後に問題ないことを確認後、お支払いとなります。
+                        <h3 class="font-black text-xl text-slate-900 mb-2">スピード修理・お支払い</h3>
+                        <p class="text-base text-slate-800 font-medium">
+                            経験豊富なプロが、速やかに施工。作業が完了して解決を確認していただいてからのお支払いです（カードや後払いもOK）。
                         </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 4: CUSTOMER REVIEWS -->
-        <section class="py-20 bg-gradient-to-b from-water-100/30 to-water-50/50">
+        <!-- SECTION 4: CUSTOMER REVIEWS (喜びの声：高齢層に寄り添った口コミを厳選) -->
+        <section class="py-16 sm:py-24 bg-gradient-to-b from-water-50 to-white border-b border-water-100">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
                 <!-- Section Header -->
-                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                    <span class="text-water-600 font-bold uppercase tracking-widest text-sm">Customer Testimonials</span>
-                    <h2 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
-                        喜びの声を多数いただいております！
+                <div class="text-center max-w-4xl mx-auto mb-16 space-y-4">
+                    <span class="bg-orange-100 text-orange-800 font-black px-4 py-1 rounded text-sm inline-block">
+                        お客様からの喜びの声
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-black text-slate-900 leading-tight">
+                        「丁寧で本当に助かりました！」<br class="xs:block md:hidden">
+                        との嬉しいお便りが多数届いています
                     </h2>
-                    <div class="w-12 h-1 bg-water-500 mx-auto rounded-full"></div>
+                    <div class="w-20 h-1.5 bg-water-500 mx-auto rounded-full mt-4"></div>
                 </div>
 
                 <!-- Testimonials Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     
                     <!-- Review 1 -->
-                    <div class="bg-white rounded-3xl p-8 border border-water-100 shadow-sm flex flex-col justify-between">
+                    <div class="bg-white rounded-3xl p-8 border-2 border-water-100 shadow-sm flex flex-col justify-between text-left">
                         <div class="space-y-4">
                             <div class="flex gap-1 text-amber-400">
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                                <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                                <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                                <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                                <i data-lucide="star" class="w-6 h-6 fill-current"></i>
                             </div>
-                            <h4 class="font-bold text-lg text-slate-900">「深夜2時のつまりだったのに迅速に対応してもらえました」</h4>
-                            <p class="text-slate-600 text-sm leading-relaxed">
-                                夜中に突然トイレが詰まり、大パニックに。24時間対応とのことですぐにお電話をしたら、電話口の方も優しく案内してくださいました。本当に15分ほどで駆けつけてくれて、手際よくあっという間に直してくれました。お値段も事前説明通りで本当に感謝しています。
+                            <h4 class="font-black text-xl text-slate-900">「夜中の突然のつまり、電話一本ですぐに駆けつけて直してくれました」</h4>
+                            <p class="text-slate-800 text-base leading-relaxed font-medium">
+                                深夜に突然トイレの水が溢れてきて大慌てしました。どこに電話してよいか分からず困っていたところ、24時間年中無休とのことでこちらにかけました。オペレーターの方も、来てくれたエンジニアの方も優しく声をかけてくれて、作業前に費用もハッキリ説明してくれたので、本当に安心してお任せできました。
                             </p>
                         </div>
-                        <div class="border-t border-slate-100 pt-4 mt-6 flex justify-between items-center text-xs text-slate-500">
-                            <span>東京都豊島区 K.S様 (40代男性)</span>
-                            <span class="bg-water-50 text-water-600 font-bold px-2 py-0.5 rounded">トイレつまり修理</span>
+                        <div class="border-t border-slate-100 pt-4 mt-6 flex justify-between items-center text-sm font-bold text-slate-600">
+                            <span>東京都豊島区 T.S様 (70代女性)</span>
+                            <span class="bg-red-50 text-red-600 font-black px-2.5 py-1 rounded">トイレ水漏れ・つまり</span>
                         </div>
                     </div>
 
                     <!-- Review 2 -->
-                    <div class="bg-white rounded-3xl p-8 border border-water-100 shadow-sm flex flex-col justify-between">
+                    <div class="bg-white rounded-3xl p-8 border-2 border-water-100 shadow-sm flex flex-col justify-between text-left">
                         <div class="space-y-4">
                             <div class="flex gap-1 text-amber-400">
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                                <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                                <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                                <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                                <i data-lucide="star" class="w-6 h-6 fill-current"></i>
                             </div>
-                            <h4 class="font-bold text-lg text-slate-900">「笑顔が素敵で説明も凄く分かりやすかったです」</h4>
-                            <p class="text-slate-600 text-sm leading-relaxed">
-                                台所の蛇口のポタポタが何ヶ月も直らず、ついに水漏れにまで発展したので相談しました。来てくださった方は、不潔な感じが一切なく、とてもクリーンな方でした。どこが原因なのか、どういう修理をするのかを絵で説明してくれて、見積もり後に安心してお願いできました。
+                            <h4 class="font-black text-xl text-slate-900">「笑顔が素敵で、言葉遣いも誠実。本当に清潔なスタッフさんでした」</h4>
+                            <p class="text-slate-800 text-base leading-relaxed font-medium">
+                                台所の水漏れで困って依頼をしました。水道工事は頑固で怖い職人さんのイメージがあって緊張していたのですが、清潔感のある非常に誠実なスタッフさんが来てくれました。原因を絵にして分かりやすく説明してくれたので、騙されているのではないかという心配も一瞬で消えました。お勧めです。
                             </p>
                         </div>
-                        <div class="border-t border-slate-100 pt-4 mt-6 flex justify-between items-center text-xs text-slate-500">
-                            <span>埼玉県さいたま市 Y.T様 (30代女性)</span>
-                            <span class="bg-water-50 text-water-600 font-bold px-2 py-0.5 rounded">蛇口パッキン・部品交換</span>
+                        <div class="border-t border-slate-100 pt-4 mt-6 flex justify-between items-center text-sm font-bold text-slate-600">
+                            <span>埼玉県羽生市 H.Y様 (60代男性)</span>
+                            <span class="bg-red-50 text-red-600 font-black px-2.5 py-1 rounded">台所蛇口・排水管修理</span>
                         </div>
                     </div>
 
                     <!-- Review 3 -->
-                    <div class="bg-white rounded-3xl p-8 border border-water-100 shadow-sm flex flex-col justify-between">
+                    <div class="bg-white rounded-3xl p-8 border-2 border-water-100 shadow-sm flex flex-col justify-between text-left">
                         <div class="space-y-4">
                             <div class="flex gap-1 text-amber-400">
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                                <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                                <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                                <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                                <i data-lucide="star" class="w-6 h-6 fill-current"></i>
                             </div>
-                            <h4 class="font-bold text-lg text-slate-900">「他店よりも安く、しっかりした保証書も貰えて安心」</h4>
-                            <p class="text-slate-600 text-sm leading-relaxed">
-                                お風呂場の排水がつまって水が溢れてしまい、何社か見積もりを取ったのですがここが一番安かったです！「本当にこれ以上かかりませんか？」と聞いたら、「見積もり決定後の追加請求は社内規則で一切禁止されています」と力強く言ってくださり、安心してお任せしました。保証書も5年分出て、アフターフォローもしっかりしてます。
+                            <h4 class="font-black text-xl text-slate-900">「お見積もりの後、納得してからの作業。料金も他社よりずっと良心的」</h4>
+                            <p class="text-slate-800 text-base leading-relaxed font-medium">
+                                お風呂場の排水溝がつまって流れなくなりました。数社に見積もりに来てもらいましたが、他は出張料金が高く、こちらは出張も見積もりも無料でした。さらに「この見積もり価格から絶対に上がりません」と書面で言ってもらえて、信頼できました。その後の高圧洗浄作業もあっという間で感動しました！
                             </p>
                         </div>
-                        <div class="border-t border-slate-100 pt-4 mt-6 flex justify-between items-center text-xs text-slate-500">
-                            <span>神奈川県横浜市 N.M様 (60代女性)</span>
-                            <span class="bg-water-50 text-water-600 font-bold px-2 py-0.5 rounded">お風呂の排水口高圧洗浄</span>
+                        <div class="border-t border-slate-100 pt-4 mt-6 flex justify-between items-center text-sm font-bold text-slate-600">
+                            <span>神奈川県横浜市 N.M様 (80代女性)</span>
+                            <span class="bg-red-50 text-red-600 font-black px-2.5 py-1 rounded">お風呂高圧洗浄</span>
                         </div>
                     </div>
 
@@ -718,106 +842,112 @@
             </div>
         </section>
 
-        <!-- SECTION 5: FAQS -->
-        <section class="py-20 bg-white">
+        <!-- SECTION 5: FAQS (疑問：高齢者にとって安心できるよう、太字で明記) -->
+        <section class="py-16 sm:py-24 bg-white border-b border-slate-200">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                
                 <!-- Section Header -->
                 <div class="text-center mb-16 space-y-4">
-                    <span class="text-water-600 font-bold uppercase tracking-widest text-sm">FAQ</span>
-                    <h2 class="text-3xl font-black text-slate-900">よくあるご質問</h2>
-                    <div class="w-12 h-1 bg-water-500 mx-auto rounded-full"></div>
+                    <span class="bg-water-100 text-water-800 font-black px-4 py-1.5 rounded-full text-base inline-block">
+                        よくいただくご質問 (FAQ)
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-black text-slate-900">よくあるご質問にお答えします</h2>
+                    <div class="w-20 h-1.5 bg-water-500 mx-auto rounded-full mt-4"></div>
                 </div>
 
                 <!-- Accordion Items -->
-                <div class="space-y-4">
+                <div class="space-y-6">
                     <!-- Q1 -->
-                    <div class="border border-slate-100 rounded-2xl p-6 bg-slate-50/50">
-                        <h3 class="font-bold text-lg text-slate-900 flex items-start gap-3">
-                            <span class="font-en text-xl text-water-500 leading-none">Q.</span>
-                            <span>お見積りに費用はかかりますか？本当に無料でしょうか？</span>
+                    <div class="border-2 border-water-100 rounded-3xl p-6 sm:p-8 bg-slate-50">
+                        <h3 class="font-black text-lg sm:text-2xl text-slate-900 flex items-start gap-3 text-left">
+                            <span class="font-en text-2xl sm:text-3xl text-red-600 leading-none">Q.</span>
+                            <span>本当に、見積もりだけでお断りしても「出張料・見積料」は0円ですか？後で請求されませんか？</span>
                         </h3>
-                        <div class="mt-3 pl-8 text-slate-600 text-sm leading-relaxed border-t border-slate-100/60 pt-3">
-                            <p class="font-bold text-water-700 mb-1">A. はい、お見積りは一切無料です。</p>
-                            トラブルの原因を調査し、現場で詳細なお見積もりをお出しするまで費用は一円もかかりません。お見積もり内容にご納得いかない場合は、そのままお断りいただいても出張費用などの請求は一切いたしませんので、ご安心ください。
+                        <div class="mt-4 pl-8 text-slate-800 text-base sm:text-lg leading-relaxed border-t border-slate-200 pt-4 text-left font-bold">
+                            <p class="text-emerald-700 font-black mb-1 flex items-center gap-1">
+                                <i data-lucide="check-circle" class="w-6 h-6"></i> A. はい、本当に出張料・お見積料、その場でのキャンセル料は1円もいただきません！
+                            </p>
+                            一部の悪質な訪問水道業者のように、お見積もり後に強引な請求をしたり、高額なキャンセル料をその場で迫ることは一切ございません。NHホールディングスの運営のもと、お客様が作業内容と提示価格にご納得いただく場合のみ、ご署名をいただいてから作業を開始いたします。ご安心ください。
                         </div>
                     </div>
 
                     <!-- Q2 -->
-                    <div class="border border-slate-100 rounded-2xl p-6 bg-slate-50/50">
-                        <h3 class="font-bold text-lg text-slate-900 flex items-start gap-3">
-                            <span class="font-en text-xl text-water-500 leading-none">Q.</span>
-                            <span>電話してからどれくらいで来てくれますか？</span>
+                    <div class="border-2 border-water-100 rounded-3xl p-6 sm:p-8 bg-slate-50">
+                        <h3 class="font-black text-lg sm:text-2xl text-slate-900 flex items-start gap-3 text-left">
+                            <span class="font-en text-2xl sm:text-3xl text-red-600 leading-none">Q.</span>
+                            <span>電話してから、自宅にスタッフが来るまでどのくらいかかりますか？</span>
                         </h3>
-                        <div class="mt-3 pl-8 text-slate-600 text-sm leading-relaxed border-t border-slate-100/60 pt-3">
-                            <p class="font-bold text-water-700 mb-1">A. 最短10分でお客様の最寄りのスタッフを手配いたします。</p>
-                            各エリア（東京・神奈川・千葉・埼玉）に常に巡回スタッフが待機しておりますので、最寄りの緊急車両から最速でお伺いします。混雑状況や道路状況にもよりますが、通常は30分以内での到着を心がけております。
+                        <div class="mt-4 pl-8 text-slate-800 text-base sm:text-lg leading-relaxed border-t border-slate-200 pt-4 text-left font-bold">
+                            <p class="text-emerald-700 font-black mb-1 flex items-center gap-1">
+                                <i data-lucide="check-circle" class="w-6 h-6"></i> A. 最短10分でお客様の最寄りの担当スタッフが急行します！
+                            </p>
+                            関東エリア（埼玉、東京、神奈川、千葉）の各地に、経験豊富な自社修理エンジニアが車で常に巡回・待機しております。お客様からのお電話をいただいた地点からもっとも近い車をカーナビでお調べして急行させるため、最短時間（通常20分〜30分前後）でお伺いすることが可能です。
                         </div>
                     </div>
 
                     <!-- Q3 -->
-                    <div class="border border-slate-100 rounded-2xl p-6 bg-slate-50/50">
-                        <h3 class="font-bold text-lg text-slate-900 flex items-start gap-3">
-                            <span class="font-en text-xl text-water-500 leading-none">Q.</span>
-                            <span>どのような支払い方法が使えますか？</span>
+                    <div class="border-2 border-water-100 rounded-3xl p-6 sm:p-8 bg-slate-50">
+                        <h3 class="font-black text-lg sm:text-2xl text-slate-900 flex items-start gap-3 text-left">
+                            <span class="font-en text-2xl sm:text-3xl text-red-600 leading-none">Q.</span>
+                            <span>高齢者のひとり暮らしで、現金の手持ちが足りないかもしれませんが、大丈夫ですか？</span>
                         </h3>
-                        <div class="mt-3 pl-8 text-slate-600 text-sm leading-relaxed border-t border-slate-100/60 pt-3">
-                            <p class="font-bold text-water-700 mb-1">A. 各種お支払方法に対応しております。</p>
-                            修理完了後に、現金での支払いのほか、各種クレジットカード（VISA、Mastercard、JCBなど）、各種QR決済（PayPay、LINE Payなど）、銀行振込、または後払い決済がご利用いただけます。手持ちの現金がない緊急時でもご安心ください。
-                        </div>
-                    </div>
-
-                    <!-- Q4 -->
-                    <div class="border border-slate-100 rounded-2xl p-6 bg-slate-50/50">
-                        <h3 class="font-bold text-lg text-slate-900 flex items-start gap-3">
-                            <span class="font-en text-xl text-water-500 leading-none">Q.</span>
-                            <span>法人や賃貸マンション・店舗 of トラブルも対応可能ですか？</span>
-                        </h3>
-                        <div class="mt-3 pl-8 text-slate-600 text-sm leading-relaxed border-t border-slate-100/60 pt-3">
-                            <p class="font-bold text-water-700 mb-1">A. もちろん可能です。</p>
-                            個人宅の他にも、ビル・マンションの管理者様、不動産管理会社様、また飲食店などの商業施設のトラブルにも幅広く対応しております。領収書の発行や請求書払い（法人のみ審査あり）にも対応しております。
+                        <div class="mt-4 pl-8 text-slate-800 text-base sm:text-lg leading-relaxed border-t border-slate-200 pt-4 text-left font-bold">
+                            <p class="text-emerald-700 font-black mb-1 flex items-center gap-1">
+                                <i data-lucide="check-circle" class="w-6 h-6"></i> A. 現金がなくても大丈夫です。多様なお支払い方法に対応しております！
+                            </p>
+                            修理完了後のお支払いにつきましては、現金だけでなく、各種クレジットカード（VISA、Masterなどすべて）、便利なQRコード決済（PayPay、LINE Payなど）、銀行振込、そしてコンビニなどでお近くでお支払いいただける「NP後払い（後払い用紙）」にも対応しております。手元に現金がない深夜・早朝の突発的なトラブルでも、安心してお電話ください。
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 6: CONTACT & CTA ZONE -->
-        <section id="contact" class="relative py-24 bg-gradient-to-br from-water-950 via-water-900 to-slate-950 text-white overflow-hidden">
-            <!-- Water reflection simulation -->
-            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(14,165,233,0.15),transparent_60%)] pointer-events-none"></div>
-            <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/20 to-transparent"></div>
+        <!-- SECTION 6: CONTACT & CTA ZONE (超特大で絶対に押し間違えない、電話したくなるエリア) -->
+        <section id="contact" class="relative py-20 bg-gradient-to-br from-water-950 via-water-900 to-slate-950 text-white overflow-hidden text-center">
+            <!-- 波の揺らぎグラデーション -->
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(14,165,233,0.25),transparent_60%)] pointer-events-none"></div>
 
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-12">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
                 
                 <div class="space-y-4">
-                    <span class="bg-water-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest inline-block">Contact Us Now</span>
-                    <h2 class="text-3xl sm:text-5xl font-black leading-tight text-shadow-md">
-                        見積もり完全無料！<br>
-                        まずは今すぐご相談ください
+                    <span class="bg-red-600 text-white text-base font-black px-4 py-1 rounded-full uppercase tracking-widest inline-block animate-pulse">
+                        24時間対応・年中無休
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-black leading-tight">
+                        お電話一本ですぐに解決します！<br>
+                        【ご相談・出張・お見積もり無料】
                     </h2>
-                    <p class="text-water-200 text-sm sm:text-base max-w-xl mx-auto">
-                        私たちは強引な営業や不要な有料作業のご提案は一切いたしません。困ったその瞬間に、いつでも安心してお電話ください。
+                    <p class="text-water-200 text-lg sm:text-2xl max-w-2xl mx-auto font-medium">
+                        「どこに相談すればいいか分からない」「高額請求が不安…」という方も、まずは安心してお気軽にご相談ください。
                     </p>
                 </div>
 
-                <!-- Single Column Highly Visible CTA -->
-                <div class="max-w-xl mx-auto">
-                    <!-- Telephone CTA -->
-                    <a href="tel:0120546207" onclick="return gtag_report_conversion('tel:0120546207');" class="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white p-8 rounded-3xl shadow-xl shadow-orange-500/20 hover:scale-[1.02] transition-all duration-300 flex flex-col justify-center items-center text-center">
-                        <span class="text-sm font-bold text-orange-100 mb-1">24時間受付・今すぐ最速手配</span>
-                        <div class="flex items-center gap-3 mb-2">
-                            <i data-lucide="phone-call" class="w-8 h-8 animate-bounce"></i>
-                            <span class="text-3xl sm:text-4xl font-bold tel-font">0120 546 207</span>
+                <!-- 巨大電話CTA（視線を絶対に集めるデザイン） -->
+                <div class="max-w-2xl mx-auto">
+                    
+                    <a href="tel:0120546207" onclick="return gtag_report_conversion('tel:0120546207');" class="bg-gradient-to-r from-orange-500 via-red-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white p-8 sm:p-12 rounded-3xl shadow-2xl shadow-orange-500/30 hover:scale-[1.02] transition-all duration-300 flex flex-col justify-center items-center text-center border-4 border-yellow-300 animate-pulse-ring">
+                        
+                        <span class="text-lg sm:text-2xl font-black text-yellow-300 mb-2 tracking-wider">
+                            👇スマートフォンの画面を押すだけで、電話がすぐ繋がります👇
+                        </span>
+                        
+                        <div class="flex items-center justify-center gap-4 mb-4">
+                            <!-- 特大振動する受話器 -->
+                            <i data-lucide="phone-call" class="w-12 h-12 text-white fill-current animate-phone-wiggle"></i>
+                            <span class="text-4xl sm:text-6xl font-black tel-font tracking-tight">0120-546-207</span>
                         </div>
-                        <span class="text-xs text-orange-50 opacity-90">携帯からもOK！お気軽にお電話ください</span>
+                        
+                        <p class="text-base sm:text-xl font-bold text-yellow-100 opacity-95">
+                            通話無料 / 携帯電話・公衆電話からもOK / 24時間365日受付
+                        </p>
                     </a>
                 </div>
 
-                <!-- Small Safe Mark -->
-                <p class="text-slate-400 text-xs flex items-center justify-center gap-1.5">
-                    <button onclick="showPage('privacy')" class="hover:text-water-400 underline transition-colors flex items-center gap-1">
-                        <i data-lucide="shield-check" class="w-4 h-4"></i>
-                        <span>個人情報の取り扱い（プライバシーポリシー）について</span>
+                <!-- 安心安全マーク -->
+                <p class="text-slate-300 text-base">
+                    <button onclick="showPage('privacy')" class="hover:text-water-400 underline font-bold transition-colors inline-flex items-center gap-1.5">
+                        <i data-lucide="shield-check" class="w-6 h-6 text-emerald-400"></i>
+                        <span>お客様の個人情報は暗号化され、厳重に管理されます（プライバシーポリシー）</span>
                     </button>
                 </p>
 
@@ -825,251 +955,243 @@
         </section>
     </main>
 
-    <!-- EXCLUSIVE COMPANY OVERVIEW PAGE VIEW (隠しビューとして別ページ風に表示) -->
-    <main id="company-view" class="flex-grow hidden bg-slate-50 py-16 sm:py-24">
+    <!-- EXCLUSIVE COMPANY OVERVIEW PAGE VIEW -->
+    <main id="company-view" class="flex-grow hidden bg-slate-50 py-16 sm:py-24 text-left">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            
             <!-- Breadcrumbs / Back button -->
-            <div class="mb-10 flex items-center justify-between">
-                <button onclick="showPage('lp')" class="inline-flex items-center gap-2 text-sm font-semibold text-water-600 hover:text-water-700 group transition-colors">
-                    <i data-lucide="arrow-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1"></i>
-                    <span>トップページに戻る</span>
+            <div class="mb-10 flex items-center justify-between border-b-2 border-slate-200 pb-4">
+                <button onclick="showPage('lp')" class="inline-flex items-center gap-2 text-lg font-black text-water-600 hover:text-water-700 group transition-colors">
+                    <i data-lucide="arrow-left" class="w-6 h-6 transition-transform group-hover:-translate-x-1"></i>
+                    <span>← トップページへ戻る</span>
                 </button>
-                <span class="text-xs text-slate-400">ホーム / 会社概要</span>
+                <span class="text-sm font-bold text-slate-500">ホーム / 会社概要</span>
             </div>
 
             <!-- Section Header -->
             <div class="text-center mb-12">
-                <h1 class="text-3xl sm:text-4xl font-black text-water-950 tracking-wider">会社概要</h1>
-                <div class="w-12 h-1 bg-water-500 mx-auto rounded-full mt-3"></div>
+                <h1 class="text-3xl sm:text-5xl font-black text-water-950 tracking-wider">会社概要</h1>
+                <div class="w-16 h-1.5 bg-water-500 mx-auto rounded-full mt-3"></div>
             </div>
 
             <!-- Company Info Card -->
-            <div class="bg-white rounded-3xl border border-water-100 shadow-2xl shadow-water-900/5 overflow-hidden">
-                <div class="divide-y divide-slate-100">
+            <div class="bg-white rounded-3xl border-2 border-water-100 shadow-2xl overflow-hidden font-bold text-slate-800 text-lg">
+                <div class="divide-y-2 divide-slate-100">
                     <!-- Row 1: Company Name -->
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-2 p-6 sm:p-8 hover:bg-water-50/20 transition-colors duration-150">
-                        <div class="md:col-span-3 font-bold text-water-700 flex items-center">会社名</div>
-                        <div class="md:col-span-9 text-slate-700 font-semibold">（株）NHホールディングス</div>
+                        <div class="md:col-span-3 font-black text-water-700">会社名</div>
+                        <div class="md:col-span-9 text-slate-900">株式会社 NHホールディングス</div>
                     </div>
                     <!-- Row 2: Location -->
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-2 p-6 sm:p-8 hover:bg-water-50/20 transition-colors duration-150">
-                        <div class="md:col-span-3 font-bold text-water-700 flex items-start pt-0.5">所在地</div>
-                        <div class="md:col-span-9 text-slate-700 space-y-1">
+                        <div class="md:col-span-3 font-black text-water-700">所在地</div>
+                        <div class="md:col-span-9 text-slate-900 space-y-1">
                             <p>〒348-0053 埼玉県羽生市南7-19-11</p>
-                            <p class="font-bold text-slate-800">
-                                TEL : <span class="tel-font text-base text-slate-900 font-bold">0120 546 207</span> / 
-                                FAX : <span class="tel-font text-base text-slate-900 font-bold">048-561-3206</span>
+                            <p class="font-black text-slate-950 mt-2">
+                                無料TEL : <span class="tel-font text-xl text-red-600">0120-546-207</span> <br class="sm:hidden">
+                                / 代表FAX : <span class="tel-font text-lg">048-561-3206</span>
                             </p>
                         </div>
                     </div>
                     <!-- Row 3: Representative -->
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-2 p-6 sm:p-8 hover:bg-water-50/20 transition-colors duration-150">
-                        <div class="md:col-span-3 font-bold text-water-700 flex items-center">代表者名</div>
-                        <div class="md:col-span-9 text-slate-700">中村 秀弘</div>
+                        <div class="md:col-span-3 font-black text-water-700">代表者名</div>
+                        <div class="md:col-span-9 text-slate-900">中村 秀弘</div>
                     </div>
                     <!-- Row 4: Establishment -->
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-2 p-6 sm:p-8 hover:bg-water-50/20 transition-colors duration-150">
-                        <div class="md:col-span-3 font-bold text-water-700 flex items-center">設立</div>
-                        <div class="md:col-span-9 text-slate-700 tel-font text-base font-bold">2015-08-01</div>
+                        <div class="md:col-span-3 font-black text-water-700">設立</div>
+                        <div class="md:col-span-9 text-slate-900 tel-font text-xl">2015年 8月 1日</div>
                     </div>
                     <!-- Row 5: Services -->
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-2 p-6 sm:p-8 hover:bg-water-50/20 transition-colors duration-150">
-                        <div class="md:col-span-3 font-bold text-water-700 flex items-start pt-0.5">事業内容</div>
-                        <div class="md:col-span-9 text-slate-700 leading-relaxed">
-                            エアコンクリーニング、ハウスクリーニング、不用品回収、遺品整理、空室清掃、特殊清掃、店舗クリーニング、壁紙再生技術etc...
+                        <div class="md:col-span-3 font-black text-water-700">事業内容</div>
+                        <div class="md:col-span-9 text-slate-900 leading-relaxed font-medium">
+                            水回り修理・給排水設備工事、エアコンクリーニング、ハウスクリーニング、不用品回収、遺品整理、空室清掃、特殊清掃、店舗クリーニング、壁紙再生技術etc...
                         </div>
                     </div>
                     <!-- Row 6: Permissions -->
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-2 p-6 sm:p-8 hover:bg-water-50/20 transition-colors duration-150">
-                        <div class="md:col-span-3 font-bold text-water-700 flex items-center">許可</div>
-                        <div class="md:col-span-9 text-slate-700">古物商許可（許可番号: <span class="tel-font text-base font-bold text-slate-900">431230058756</span>）</div>
+                        <div class="md:col-span-3 font-black text-water-700">許可</div>
+                        <div class="md:col-span-9 text-slate-900">古物商許可（埼玉県公安委員会 第 <span class="tel-font text-lg font-bold">431230058756</span> 号）</div>
                     </div>
                     <!-- Row 7: Qualifications -->
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-2 p-6 sm:p-8 hover:bg-water-50/20 transition-colors duration-150">
-                        <div class="md:col-span-3 font-bold text-water-700 flex items-center">資格</div>
-                        <div class="md:col-span-9 text-slate-700">エアコンクリーニング士、ハウスクリーニング士</div>
+                        <div class="md:col-span-3 font-black text-water-700">資格</div>
+                        <div class="md:col-span-9 text-slate-900">水道局指定店、給水装置工事主任技術者、エアコンクリーニング士、ハウスクリーニング士</div>
                     </div>
                 </div>
             </div>
 
             <!-- Call to action in company page -->
             <div class="mt-12 text-center">
-                <button onclick="showPage('lp')" class="bg-gradient-to-r from-water-500 to-water-700 hover:from-water-600 hover:to-water-800 text-white font-bold px-8 py-3.5 rounded-full shadow-lg shadow-water-500/20 transition-all duration-300 hover:scale-105 inline-flex items-center gap-2">
-                    <i data-lucide="home" class="w-5 h-5"></i>
+                <button onclick="showPage('lp')" class="bg-gradient-to-r from-water-600 to-water-800 hover:from-water-700 hover:to-water-900 text-white font-black px-10 py-5 rounded-full shadow-lg shadow-water-500/20 transition-all duration-300 hover:scale-105 inline-flex items-center gap-2">
+                    <i data-lucide="home" class="w-6 h-6"></i>
                     <span>トラブル解決ページに戻る</span>
                 </button>
             </div>
         </div>
     </main>
 
-    <!-- EXCLUSIVE PRIVACY POLICY PAGE VIEW (新設: 別ページ風表示) -->
-    <main id="privacy-view" class="flex-grow hidden bg-slate-50 py-16 sm:py-24">
+    <!-- EXCLUSIVE PRIVACY POLICY PAGE VIEW -->
+    <main id="privacy-view" class="flex-grow hidden bg-slate-50 py-16 sm:py-24 text-left">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            
             <!-- Breadcrumbs / Back button -->
-            <div class="mb-10 flex items-center justify-between">
-                <button onclick="showPage('lp')" class="inline-flex items-center gap-2 text-sm font-semibold text-water-600 hover:text-water-700 group transition-colors">
-                    <i data-lucide="arrow-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1"></i>
-                    <span>トップページに戻る</span>
+            <div class="mb-10 flex items-center justify-between border-b-2 border-slate-200 pb-4">
+                <button onclick="showPage('lp')" class="inline-flex items-center gap-2 text-lg font-black text-water-600 hover:text-water-700 group transition-colors">
+                    <i data-lucide="arrow-left" class="w-6 h-6 transition-transform group-hover:-translate-x-1"></i>
+                    <span>← トップページへ戻る</span>
                 </button>
-                <span class="text-xs text-slate-400">ホーム / プライバシーポリシー</span>
+                <span class="text-sm font-bold text-slate-500">ホーム / プライバシーポリシー</span>
             </div>
 
             <!-- Section Header -->
             <div class="text-center mb-12">
-                <h1 class="text-3xl sm:text-4xl font-black text-water-950 tracking-wider">プライバシーポリシー</h1>
-                <p class="text-xs text-slate-400 mt-2">個人情報の取り扱い方針について</p>
-                <div class="w-12 h-1 bg-water-500 mx-auto rounded-full mt-3"></div>
+                <h1 class="text-3xl sm:text-5xl font-black text-water-950 tracking-wider">個人情報保護方針</h1>
+                <p class="text-base text-slate-600 mt-2">（プライバシーポリシー）</p>
+                <div class="w-16 h-1.5 bg-water-500 mx-auto rounded-full mt-3"></div>
             </div>
 
             <!-- Privacy Policy Content Card -->
-            <div class="bg-white rounded-3xl border border-water-100 shadow-2xl shadow-water-900/5 p-6 sm:p-10 text-slate-700 leading-relaxed space-y-8">
-                <p class="text-sm text-slate-600">
-                    （株）NHホールディングス（以下、「当社」といいます。）は、本ウェブサイト（以下、「本サイト」といいます。）上で提供する水回り修理受付サービス（以下、「本サービス」といいます。）における、ユーザーの個人情報の取扱いについて、以下のとおりプライバシーポリシー（以下、「本ポリシー」といいます。）を定めます。
+            <div class="bg-white rounded-3xl border-2 border-water-100 shadow-2xl p-8 sm:p-12 text-slate-800 leading-relaxed space-y-8 text-base">
+                <p class="font-medium">
+                    株式会社NHホールディングス（以下、「当社」といいます。）は、本ウェブサイト上で提供する水回り修理受付サービスにおける、ユーザーの個人情報の取扱いについて、以下のとおり個人情報保護方針（以下、「本ポリシー」といいます。）を定め、適切に管理・運用します。
                 </p>
 
                 <!-- Clause 1 -->
                 <div class="space-y-3">
-                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-                        <span class="w-1 h-5 bg-water-500 rounded-full"></span>
+                    <h2 class="text-xl font-black text-slate-900 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-water-500 rounded-full"></span>
                         1. 個人情報の定義
                     </h2>
-                    <p class="text-sm pl-3">
-                        「個人情報」とは、個人情報保護法にいう「個人情報」を指すものとし、生存する個人に関する情報であって、当該情報に含まれる氏名、生年月日、住所、電話番号、連絡先その他の記述等により特定の個人を識別できる情報（個人識別情報）を指します。
+                    <p class="pl-4 font-medium">
+                        「個人情報」とは、個人情報保護法にいう「個人情報」を指すものとし、生存する個人に関する情報であって、当該情報に含まれる氏名、生年月日、住所、電話番号、連絡先その他の記述等により特定の個人を識別できる情報を指します。
                     </p>
                 </div>
 
                 <!-- Clause 2 -->
                 <div class="space-y-3">
-                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-                        <span class="w-1 h-5 bg-water-500 rounded-full"></span>
-                        2. 個人情報の収集方法
+                    <h2 class="text-xl font-black text-slate-900 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-water-500 rounded-full"></span>
+                        2. 個人情報の安全な収集方法
                     </h2>
-                    <p class="text-sm pl-3">
-                        当社は、ユーザーが本サービスをご利用、またはお問い合わせ、お電話、LINE等での相談を行う際に、氏名、住所、電話番号、状況写真などの個人情報をお尋ねすることがあります。
+                    <p class="pl-4 font-medium">
+                        当社は、ユーザーが水漏れ修理のお問い合わせ、お電話、LINE等での無料相談を行う際に、氏名、住所、電話番号、被害状況写真などの必要最低限の個人情報を、適法かつ公正な手段で取得します。
                     </p>
                 </div>
 
                 <!-- Clause 3 -->
                 <div class="space-y-3">
-                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-                        <span class="w-1 h-5 bg-water-500 rounded-full"></span>
+                    <h2 class="text-xl font-black text-slate-900 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-water-500 rounded-full"></span>
                         3. 個人情報を収集・利用する目的
                     </h2>
-                    <div class="text-sm pl-3 space-y-2">
+                    <div class="pl-4 space-y-2 font-medium">
                         <p>当社が個人情報を収集・利用する目的は、以下のとおりです。</p>
                         <ul class="list-disc pl-5 space-y-1">
-                            <li>お客様からのお問い合わせ、ご依頼への回答、駆けつけ対応のため</li>
-                            <li>当社サービスの提供・運営（トラブル箇所の調査、水道工事・修理施工）のため</li>
-                            <li>本サービスに関わるご利用料金 of 請求・回収手続きのため</li>
-                            <li>サービス後のアフターメンテナンス対応および保証書発行手続きのため</li>
-                            <li>上記の利用目的に付随する目的のため</li>
+                            <li>お客様からのお問い合わせ、現場急行・修理依頼に対応するため</li>
+                            <li>当社サービス工事の完了、保証書の発行、アフターサポートのため</li>
+                            <li>水道工事料金の決済手続き（クレジットカード決済やNP後払いの用紙発行など）のため</li>
+                            <li>その他トラブル工事の再発防止連絡、および品質向上のためのアンケートのため</li>
                         </ul>
                     </div>
                 </div>
 
                 <!-- Clause 4 -->
                 <div class="space-y-3">
-                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-                        <span class="w-1 h-5 bg-water-500 rounded-full"></span>
-                        4. 個人情報の第三者提供
+                    <h2 class="text-xl font-black text-slate-900 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-water-500 rounded-full"></span>
+                        4. 個人情報の第三者提供について
                     </h2>
-                    <div class="text-sm pl-3 space-y-2">
-                        <p>当社は、次に掲げる場合を除いて、あらかじめユーザーの同意を得ることなく、第三者に個人情報を提供することはありません。ただし、個人情報保護法その他の法令で認められる場合を除きます。</p>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>人の生命、身体または財産の保護のために必要がある場合であって、本人の同意を得ることが困難であるとき</li>
-                            <li>公衆衛生の向上または児童の健全な育成の推進のために特に必要がある場合であって、本人の同意を得ることが困難であるとき</li>
-                            <li>国の機関もしくは地方公共団体またはその委託を受けた者が法令の定める事務を遂行することに対して協力する必要がある場合であって、本人の同意を得ることにより当該事務の遂行に支障を及ぼすおそれがあるとき</li>
-                        </ul>
-                    </div>
+                    <p class="pl-4 font-medium">
+                        当社は、ユーザーの同意を得ることなく、第三者に個人情報を提供することはありません。ただし、人の生命、身体または財産の保護のために緊急の必要性がある場合、あるいは法令に基づく正当な要請がある場合を除きます。
+                    </p>
                 </div>
 
                 <!-- Clause 5 -->
                 <div class="space-y-3">
-                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-                        <span class="w-1 h-5 bg-water-500 rounded-full"></span>
-                        5. 安全管理措置
+                    <h2 class="text-xl font-black text-slate-900 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-water-500 rounded-full"></span>
+                        5. 厳重な安全管理体制
                     </h2>
-                    <p class="text-sm pl-3">
-                        当社は、収集したお客様の個人情報の漏えい、滅失又はき損の防止、その他個人情報の安全管理のために必要かつ適切な安全対策を講じ、厳重に管理いたします。
+                    <p class="pl-4 font-medium">
+                        当社は、収集したお客様の個人情報の漏えい、紛失、改ざんを防止するため、全システムにセキュリティ対策を施し、サービスエンジニアおよび社内スタッフ全員に適切な個人情報保護研修を徹底して安全に保管いたします。
                     </p>
                 </div>
 
                 <!-- Clause 6 -->
                 <div class="space-y-3">
-                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-                        <span class="w-1 h-5 bg-water-500 rounded-full"></span>
-                        6. 個人情報の開示・訂正・利用停止等
+                    <h2 class="text-xl font-black text-slate-900 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-water-500 rounded-full"></span>
+                        6. お問い合わせ窓口
                     </h2>
-                    <p class="text-sm pl-3">
-                        お客様からご本人の個人情報の開示、訂正、利用停止等のご請求があった場合には、ご本人であることを確認させていただいた上で、速やかに対応いたします。下記のお問い合わせ窓口までご連絡ください。
-                    </p>
-                </div>
-
-                <!-- Clause 7 -->
-                <div class="space-y-3">
-                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-                        <span class="w-1 h-5 bg-water-500 rounded-full"></span>
-                        7. お問い合わせ窓口
-                    </h2>
-                    <div class="text-sm pl-3 space-y-1.5 bg-water-50/50 p-6 rounded-2xl border border-water-100">
-                        <p class="font-bold">株式会社 NHホールディングス</p>
-                        <p>〒348-0053 埼玉県羽生市南7-19-11</p>
-                        <p>個人情報取扱責任者：中村 秀弘</p>
-                        <p>連絡先TEL：<span class="tel-font font-bold">0120 546 207</span></p>
+                    <div class="pl-4 space-y-2 bg-water-50/50 p-6 rounded-2xl border border-water-100 font-bold">
+                        <p>株式会社 NHホールディングス</p>
+                        <p>所在地：〒348-0053 埼玉県羽生市南7-19-11</p>
+                        <p>個人情報取扱最高責任者：中村 秀弘</p>
+                        <p>相談窓口TEL：<span class="tel-font text-red-600 text-lg">0120-546-207</span></p>
                     </div>
                 </div>
             </div>
 
             <!-- Call to action in privacy page -->
             <div class="mt-12 text-center">
-                <button onclick="showPage('lp')" class="bg-gradient-to-r from-water-500 to-water-700 hover:from-water-600 hover:to-water-800 text-white font-bold px-8 py-3.5 rounded-full shadow-lg shadow-water-500/20 transition-all duration-300 hover:scale-105 inline-flex items-center gap-2">
-                    <i data-lucide="home" class="w-5 h-5"></i>
+                <button onclick="showPage('lp')" class="bg-gradient-to-r from-water-600 to-water-800 hover:from-water-700 hover:to-water-900 text-white font-black px-10 py-5 rounded-full shadow-lg shadow-water-500/20 transition-all duration-300 hover:scale-105 inline-flex items-center gap-2">
+                    <i data-lucide="home" class="w-6 h-6"></i>
                     <span>トラブル解決ページに戻る</span>
                 </button>
             </div>
         </div>
     </main>
 
-    <!-- FOOTER -->
-    <!-- 背景色を bg-slate-950 から bg-white に、テキスト色を text-slate-500 から text-slate-600 に、上の境界線をライトブルー（border-water-100）に更新しました -->
-    <footer class="bg-white text-slate-600 py-12 border-t border-water-100 text-center text-xs pb-32 md:pb-12 w-full">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-            <!-- フッターのロゴも logo.png に差し替え、こちらもPCサイズを md:h-16 にスケールアップ -->
+    <!-- FOOTER (白背景にして、文字の見やすさと清潔感をアップしました) -->
+    <footer class="bg-white text-slate-800 py-16 border-t-4 border-water-200 text-center text-sm pb-36 md:pb-16 w-full font-medium">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            
             <div class="flex items-center justify-center">
                 <button onclick="showPage('lp')" class="focus:outline-none">
                     <img 
                         src="logo.png" 
                         alt="クリーンウォーターサポート" 
-                        class="h-10 sm:h-14 md:h-16 w-auto object-contain mx-auto transition-all duration-300" 
-                        onerror="this.onerror=null; this.src='https://placehold.co/200x50/0c4a6e/ffffff?text=クリーンウォーター';"
+                        class="h-14 sm:h-20 md:h-22 w-auto object-contain mx-auto transition-all duration-300" 
+                        onerror="this.onerror=null; this.src='https://placehold.co/280x70/0c4a6e/ffffff?text=水回りクリーンサポート';"
                     >
                 </button>
             </div>
-            <!-- Footer Navigation Links (リンク色も白背景に映える text-slate-500 に、ホバー時はブランドカラーの text-water-600 に設定) -->
-            <div class="flex justify-center space-x-6 text-sm text-slate-500 mb-2">
-                <button onclick="showPage('company')" class="hover:text-water-600 transition-colors">会社概要</button>
+
+            <!-- Footer Navigation Links (大きな文字、ハッキリした色で押し間違いを防止) -->
+            <div class="flex justify-center space-x-8 text-base font-black text-water-700 mb-2">
+                <button onclick="showPage('company')" class="hover:text-red-600 hover:underline transition-colors">会社概要</button>
                 <span class="text-slate-300">|</span>
-                <button onclick="showPage('privacy')" class="hover:text-water-600 transition-colors">プライバシーポリシー</button>
+                <button onclick="showPage('privacy')" class="hover:text-red-600 hover:underline transition-colors">プライバシーポリシー</button>
             </div>
-            <p class="max-w-xl mx-auto leading-relaxed text-slate-500">
+
+            <p class="max-w-2xl mx-auto leading-relaxed text-slate-800 font-bold text-sm bg-slate-50 p-6 rounded-2xl border border-slate-200">
                 【運営会社】株式会社 NHホールディングス<br>
                 所在地：〒348-0053 埼玉県羽生市南7-19-11<br>
-                古物商許可番号：第 <span class="tel-font">431230058756</span> 号<br>
+                古物商許可番号：埼玉県公安委員会 第 <span class="tel-font text-base">431230058756</span> 号<br>
                 対応エリア：埼玉県、東京都、神奈川県、千葉県（一部離島を除く地域）
             </p>
-            <p class="text-slate-400">&copy; 2026 NH Holdings Inc. & Clean Water Support. All rights reserved.</p>
+            <p class="text-slate-500 font-bold">&copy; 2026 NH Holdings Inc. & Clean Water Support. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- MOBILE FLOATING CTA (Bottom Bar) -->
-    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-100 shadow-2xl p-4 md:hidden">
+    <!-- MOBILE FLOATING CTA (高齢者が絶対に気付き、思わず押したくなる「最優先極太電話バー」) -->
+    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t-4 border-red-500 shadow-2xl p-4 md:hidden">
         <div class="max-w-md mx-auto">
-            <!-- Phone (新しい電話番号へアップデート、全幅に変更してタップ率向上) -->
-            <a href="tel:0120546207" onclick="return gtag_report_conversion('tel:0120546207');" class="bg-gradient-to-r from-orange-500 to-amber-500 active:from-orange-600 active:to-amber-600 text-white rounded-2xl py-4 px-6 flex flex-col items-center justify-center shadow-lg shadow-orange-500/20 w-full">
-                <span class="text-xs font-bold text-orange-100 -mb-0.5 leading-none">24時間受付中！最短10分でお伺い！</span>
-                <span class="font-bold text-lg flex items-center gap-2 tel-font mt-1">
-                    <i data-lucide="phone-call" class="w-4 h-4 fill-current animate-pulse"></i>
-                    0120 546 207
+            <!-- 電話 (超巨大サイズ化 ＆ ブルブル揺れるアイコン ＆ パルスエフェクト) -->
+            <a href="tel:0120546207" onclick="return gtag_report_conversion('tel:0120546207');" class="bg-gradient-to-r from-orange-500 via-red-500 to-red-600 active:from-red-600 active:to-red-700 text-white rounded-2xl py-4 px-6 flex flex-col items-center justify-center shadow-xl shadow-orange-500/30 w-full animate-pulse-ring border-2 border-yellow-300">
+                <span class="text-xs xs:text-sm font-black text-yellow-200 -mb-0.5 leading-none tracking-wider">
+                    👇 画面を押すだけで、今すぐオペレーターへ繋がります 👇
+                </span>
+                <span class="font-black text-xl xs:text-2xl flex items-center justify-center gap-3 tel-font mt-1.5">
+                    <!-- 揺れる電話アイコン -->
+                    <i data-lucide="phone-call" class="w-6 h-6 fill-current animate-phone-wiggle"></i>
+                    <span>📞 0120-546-207</span>
+                </span>
+                <span class="text-[10px] xs:text-xs text-white opacity-95 font-bold mt-1">
+                    （24時間365日いつでも・通話料無料で安心！）
                 </span>
             </a>
         </div>
